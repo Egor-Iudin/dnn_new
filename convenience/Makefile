@@ -1,10 +1,9 @@
 # Define the flags to control make
 CC = g++
-INCLUDE = -Iinclude -I../bnn-hep/include/ -I$(shell root-config --incdir) -I${CMSSW_FWLITE_INCLUDE_PATH}/boost/
+INCLUDE = -Iinclude -I../bnn-hep/include/ -I$(shell root-config --incdir) -I/cvmfs/cms.cern.ch/slc7_amd64_gcc900/external/boost/1.72.0-ghbfee4/include/boost/
 OPFLAGS =
 CFLAGS = -Wall -Wextra -std=c++17 $(INCLUDE) $(OPFLAGS)
-LDFLAGS = $(shell root-config --libs) -L${CMSSW_FWLITE_INCLUDE_PATH}/../lib/
-ENDFLAGS =  -lboost_filesystem -lboost_system
+LDFLAGS = $(shell root-config --libs) -L/cvmfs/cms.cern.ch/slc7_amd64_gcc900/external/boost/1.72.0-ghbfee4/lib/ -lboost_filesystem -lboost_system
 
 vpath %.cpp src ../bnn-hep/src
 
@@ -15,15 +14,15 @@ vpath %.cpp src ../bnn-hep/src
 all: eventIndexToID eventIDToIndex
 
 eventIndexToID: eventIndexToID.o EventID.o TrainEventList.o
-	$(CC) $(LDFLAGS) $+ -o $@ $(ENDFLAGS)
+	$(CC) $(LDFLAGS) $+ -o $@
 	@ cd ../bin; ln -sf ../convenience/$@; cd -
 
 eventIDToIndex: eventIDToIndex.o EventID.o TrainEventList.o
-	$(CC) $(LDFLAGS) $+ -o $@ $(ENDFLAGS)
+	$(CC) $(LDFLAGS) $+ -o $@
 	@ cd ../bin; ln -sf ../convenience/$@; cd -
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@ $(ENDFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@ rm -f *.o
