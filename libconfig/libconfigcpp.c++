@@ -26,8 +26,6 @@
 #pragma warning(disable : 4996)
 #endif
 
-#define throw(...)
-
 #include "wincompat.h"
 #include "libconfig.h"
 
@@ -396,7 +394,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::read(FILE *stream) throw(ParseException)
+  void Config::read(FILE *stream)
   {
     if (!config_read(_config, stream))
       handleError();
@@ -404,7 +402,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::readString(const char *str) throw(ParseException)
+  void Config::readString(const char *str)
   {
     if (!config_read_string(_config, str))
       handleError();
@@ -419,8 +417,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::readFile(const char *filename) throw(FileIOException,
-                                                    ParseException)
+  void Config::readFile(const char *filename)
   {
     if (!config_read_file(_config, filename))
       handleError();
@@ -428,7 +425,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::writeFile(const char *filename) throw(FileIOException)
+  void Config::writeFile(const char *filename)
   {
     if (!config_write_file(_config, filename))
       handleError();
@@ -437,7 +434,6 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   Setting &Config::lookup(const char *path) const
-      throw(SettingNotFoundException)
   {
     config_setting_t *s = config_lookup(_config, path);
     if (!s)
@@ -624,7 +620,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator bool() const throw(SettingTypeException)
+  Setting::operator bool() const
   {
     assertType(TypeBoolean);
 
@@ -633,7 +629,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator int() const throw(SettingTypeException)
+  Setting::operator int() const
   {
     assertType(TypeInt);
 
@@ -642,7 +638,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator unsigned int() const throw(SettingTypeException)
+  Setting::operator unsigned int() const
   {
     assertType(TypeInt);
 
@@ -656,7 +652,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator long() const throw(SettingTypeException)
+  Setting::operator long() const
   {
     if (sizeof(long) == sizeof(long long))
       return operator long long();
@@ -666,7 +662,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator unsigned long() const throw(SettingTypeException)
+  Setting::operator unsigned long() const
   {
     if (sizeof(long) == sizeof(long long))
       return operator unsigned long long();
@@ -676,7 +672,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator long long() const throw(SettingTypeException)
+  Setting::operator long long() const
   {
     assertType(TypeInt64);
 
@@ -685,7 +681,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator unsigned long long() const throw(SettingTypeException)
+  Setting::operator unsigned long long() const
   {
     assertType(TypeInt64);
 
@@ -699,7 +695,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator double() const throw(SettingTypeException)
+  Setting::operator double() const
   {
     assertType(TypeFloat);
 
@@ -708,7 +704,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator float() const throw(SettingTypeException)
+  Setting::operator float() const
   {
     assertType(TypeFloat);
 
@@ -718,7 +714,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator const char *() const throw(SettingTypeException)
+  Setting::operator const char *() const
   {
     assertType(TypeString);
 
@@ -727,7 +723,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator std::string() const throw(SettingTypeException)
+  Setting::operator std::string() const
   {
     assertType(TypeString);
 
@@ -742,7 +738,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(bool value) throw(SettingTypeException)
+  Setting &Setting::operator=(bool value)
   {
     assertType(TypeBoolean);
 
@@ -753,7 +749,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(int value) throw(SettingTypeException)
+  Setting &Setting::operator=(int value)
   {
     assertType(TypeInt);
 
@@ -764,7 +760,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(long value) throw(SettingTypeException)
+  Setting &Setting::operator=(long value)
   {
     if (sizeof(long) == sizeof(long long))
       return (operator=(static_cast<long long>(value)));
@@ -774,7 +770,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const long long &value) throw(SettingTypeException)
+  Setting &Setting::operator=(const long long &value)
   {
     assertType(TypeInt64);
 
@@ -785,7 +781,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const double &value) throw(SettingTypeException)
+  Setting &Setting::operator=(const double &value)
   {
     assertType(TypeFloat);
 
@@ -796,7 +792,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(float value) throw(SettingTypeException)
+  Setting &Setting::operator=(float value)
   {
     assertType(TypeFloat);
 
@@ -809,7 +805,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const char *value) throw(SettingTypeException)
+  Setting &Setting::operator=(const char *value)
   {
     assertType(TypeString);
 
@@ -820,7 +816,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const std::string &value) throw(SettingTypeException)
+  Setting &Setting::operator=(const std::string &value)
   {
     assertType(TypeString);
 
@@ -832,7 +828,6 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   Setting &Setting::operator[](int i) const
-      throw(SettingTypeException, SettingNotFoundException)
   {
     if ((_type != TypeArray) && (_type != TypeGroup) && (_type != TypeList))
       throw SettingTypeException(*this, i);
@@ -848,7 +843,6 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   Setting &Setting::operator[](const char *key) const
-      throw(SettingTypeException, SettingNotFoundException)
   {
     assertType(TypeGroup);
 
@@ -978,7 +972,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const Setting &Setting::getParent() const throw(SettingNotFoundException)
+  const Setting &Setting::getParent() const
   {
     config_setting_t *setting = config_setting_parent(_setting);
 
@@ -990,7 +984,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::getParent() throw(SettingNotFoundException)
+  Setting &Setting::getParent()
   {
     config_setting_t *setting = config_setting_parent(_setting);
 
@@ -1030,7 +1024,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Setting::remove(const char *name) throw(SettingTypeException, SettingNotFoundException)
+  void Setting::remove(const char *name)
   {
     assertType(TypeGroup);
 
@@ -1040,7 +1034,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Setting::remove(unsigned int idx) throw(SettingTypeException, SettingNotFoundException)
+  void Setting::remove(unsigned int idx)
   {
     if ((_type != TypeArray) && (_type != TypeGroup) && (_type != TypeList))
       throw SettingTypeException(*this, idx);
@@ -1051,7 +1045,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::add(const char *name, Setting::Type type) throw(SettingNameException, SettingTypeException)
+  Setting &Setting::add(const char *name, Setting::Type type)
   {
     assertType(TypeGroup);
 
@@ -1070,7 +1064,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::add(Setting::Type type) throw(SettingTypeException)
+  Setting &Setting::add(Setting::Type type)
   {
     if ((_type != TypeArray) && (_type != TypeList))
       throw SettingTypeException(*this);
@@ -1129,7 +1123,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Setting::assertType(Setting::Type type) const throw(SettingTypeException)
+  void Setting::assertType(Setting::Type type) const
   {
     if (type != _type)
     {

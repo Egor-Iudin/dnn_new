@@ -6,8 +6,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
-#define throw(...)
-
 using std::exit;
 
 Config::Config(string const &fileName, Logger &log_) : log(log_)
@@ -227,7 +225,7 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
     log << info(2) << "The configuration file is parsed and checked." << eom;
 }
 
-Setting const &Config::LookupSetting(string const &path) throw(SettingNotFoundException)
+Setting const &Config::LookupSetting(string const &path)
 {
     return ExpandSetting(cfg.lookup(path));
 }
@@ -246,7 +244,7 @@ Setting const &Config::LookupMandatorySetting(string const &path) noexcept
     }
 }
 
-Setting const &Config::ExpandSetting(Setting const &setting) throw(SettingNotFoundException)
+Setting const &Config::ExpandSetting(Setting const &setting)
 {
     if (setting.getType() == Setting::Type::TypeString)
     {

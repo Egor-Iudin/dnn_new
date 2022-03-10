@@ -14,8 +14,6 @@
 #include <vector>
 #include <utility>
 
-#define throw(...)
-
 using std::string;
 using std::vector;
 using namespace logger;
@@ -99,7 +97,7 @@ class Config
          * form "@another-path" the path is expanded accordingly. Recursion is allowed and there is
          * no protection against the loop references.
          */
-        Setting const & LookupSetting(string const &path) throw(SettingNotFoundException);
+        Setting const & LookupSetting(string const &path);
         
         /**
          * \brief Finds the setting given its path. Does not throw exceptions.
@@ -117,7 +115,7 @@ class Config
          * Checks if the given setting is a reference and expands it accordingly. Recursion is
          * allowed and there is no protection against the loop references.
          */
-        Setting const & ExpandSetting(Setting const &setting) throw(SettingNotFoundException);
+        Setting const & ExpandSetting(Setting const &setting);
         
         /**
          * \brief Reads a parameter given its path.

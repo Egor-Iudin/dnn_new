@@ -39,8 +39,6 @@
 #define LIBCONFIGXX_API
 #endif /* WIN32 */
 
-#define throw(...)
-
 #define LIBCONFIGXX_VER_MAJOR 1
 #define LIBCONFIGXX_VER_MINOR 4
 #define LIBCONFIGXX_VER_REVISION 8
@@ -194,8 +192,7 @@ namespace libconfig
 
     Setting(config_setting_t *setting);
 
-    void assertType(Type type) const
-        throw(SettingTypeException);
+    void assertType(Type type) const;
     static Setting &wrapSetting(config_setting_t *setting);
 
     Setting(const Setting &other);            // not supported
@@ -209,43 +206,40 @@ namespace libconfig
     inline Format getFormat() const noexcept { return (_format); }
     void setFormat(Format format) noexcept;
 
-    operator bool() const throw(SettingTypeException);
-    operator int() const throw(SettingTypeException);
-    operator unsigned int() const throw(SettingTypeException);
-    operator long() const throw(SettingTypeException);
-    operator unsigned long() const throw(SettingTypeException);
-    operator long long() const throw(SettingTypeException);
-    operator unsigned long long() const throw(SettingTypeException);
-    operator double() const throw(SettingTypeException);
-    operator float() const throw(SettingTypeException);
-    operator const char *() const throw(SettingTypeException);
-    operator std::string() const throw(SettingTypeException);
+    operator bool() const;
+    operator int() const;
+    operator unsigned int() const;
+    operator long() const;
+    operator unsigned long() const;
+    operator long long() const;
+    operator unsigned long long() const;
+    operator double() const;
+    operator float() const;
+    operator const char *() const;
+    operator std::string() const;
 
-    inline const char *c_str() const throw(SettingTypeException)
+    inline const char *c_str() const
     {
       return operator const char *();
     }
 
-    Setting &operator=(bool value) throw(SettingTypeException);
-    Setting &operator=(int value) throw(SettingTypeException);
-    Setting &operator=(long value) throw(SettingTypeException);
-    Setting &operator=(const long long &value) throw(SettingTypeException);
-    Setting &operator=(const double &value) throw(SettingTypeException);
-    Setting &operator=(float value) throw(SettingTypeException);
-    Setting &operator=(const char *value) throw(SettingTypeException);
-    Setting &operator=(const std::string &value) throw(SettingTypeException);
+    Setting &operator=(bool value);
+    Setting &operator=(int value);
+    Setting &operator=(long value);
+    Setting &operator=(const long long &value);
+    Setting &operator=(const double &value);
+    Setting &operator=(float value);
+    Setting &operator=(const char *value);
+    Setting &operator=(const std::string &value);
 
-    Setting &operator[](const char *key) const
-        throw(SettingTypeException, SettingNotFoundException);
+    Setting &operator[](const char *key) const;
 
     inline Setting &operator[](const std::string &key) const
-        throw(SettingTypeException, SettingNotFoundException)
     {
       return (operator[](key.c_str()));
     }
 
-    Setting &operator[](int index) const
-        throw(SettingTypeException, SettingNotFoundException);
+    Setting &operator[](int index) const;
 
     bool lookupValue(const char *name, bool &value) const noexcept;
     bool lookupValue(const char *name, int &value) const noexcept;
@@ -312,23 +306,23 @@ namespace libconfig
       return (lookupValue(name.c_str(), value));
     }
 
-    void remove(const char *name) throw(SettingTypeException, SettingNotFoundException);
+    void remove(const char *name);
 
-    inline void remove(const std::string &name) throw(SettingTypeException, SettingNotFoundException)
+    inline void remove(const std::string &name)
     {
       remove(name.c_str());
     }
 
-    void remove(unsigned int idx) throw(SettingTypeException, SettingNotFoundException);
+    void remove(unsigned int idx);
 
-    inline Setting &add(const std::string &name, Type type) throw(SettingNameException, SettingTypeException)
+    inline Setting &add(const std::string &name, Type type)
     {
       return (add(name.c_str(), type));
     }
 
-    Setting &add(const char *name, Type type) throw(SettingNameException, SettingTypeException);
+    Setting &add(const char *name, Type type);
 
-    Setting &add(Type type) throw(SettingTypeException);
+    Setting &add(Type type);
 
     inline bool exists(const std::string &name) const noexcept
     {
@@ -342,8 +336,8 @@ namespace libconfig
     std::string getPath() const;
     int getIndex() const noexcept;
 
-    const Setting &getParent() const throw(SettingNotFoundException);
-    Setting &getParent() throw(SettingNotFoundException);
+    const Setting &getParent() const;
+    Setting &getParent();
 
     bool isRoot() const noexcept;
 
@@ -409,25 +403,25 @@ namespace libconfig
     void setIncludeDir(const char *includeDir) noexcept;
     const char *getIncludeDir() const noexcept;
 
-    void read(FILE *stream) throw(ParseException);
+    void read(FILE *stream);
     void write(FILE *stream) const;
 
-    void readString(const char *str) throw(ParseException);
-    inline void readString(const std::string &str) throw(ParseException)
+    void readString(const char *str);
+    inline void readString(const std::string &str)
     {
       return (readString(str.c_str()));
     }
 
-    void readFile(const char *filename) throw(FileIOException, ParseException);
-    void writeFile(const char *filename) throw(FileIOException);
+    void readFile(const char *filename);
+    void writeFile(const char *filename);
 
     inline Setting &lookup(const std::string &path) const
-        throw(SettingNotFoundException)
+       
     {
       return (lookup(path.c_str()));
     }
 
-    Setting &lookup(const char *path) const throw(SettingNotFoundException);
+    Setting &lookup(const char *path) const;
 
     inline bool exists(const std::string &path) const noexcept
     {
