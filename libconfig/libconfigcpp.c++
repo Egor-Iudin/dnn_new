@@ -56,14 +56,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  ParseException::~ParseException() throw()
+  ParseException::~ParseException() noexcept
   {
     ::free((void *)_file);
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *ParseException::what() const throw()
+  const char *ParseException::what() const noexcept
   {
     return ("ParseException");
   }
@@ -201,14 +201,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingException::what() const throw()
+  const char *SettingException::what() const noexcept
   {
     return ("SettingException");
   }
 
   // ---------------------------------------------------------------------------
 
-  SettingException::~SettingException() throw()
+  SettingException::~SettingException() noexcept
   {
     ::free(_path);
   }
@@ -237,7 +237,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingTypeException::what() const throw()
+  const char *SettingTypeException::what() const noexcept
   {
     return ("SettingTypeException");
   }
@@ -267,7 +267,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingNotFoundException::what() const throw()
+  const char *SettingNotFoundException::what() const noexcept
   {
     return ("SettingNotFoundException");
   }
@@ -282,14 +282,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingNameException::what() const throw()
+  const char *SettingNameException::what() const noexcept
   {
     return ("SettingNameException");
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *FileIOException::what() const throw()
+  const char *FileIOException::what() const noexcept
   {
     return ("FileIOException");
   }
@@ -347,28 +347,28 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::setTabWidth(unsigned short width) throw()
+  void Config::setTabWidth(unsigned short width) noexcept
   {
     config_set_tab_width(_config, width);
   }
 
   // ---------------------------------------------------------------------------
 
-  unsigned short Config::getTabWidth() const throw()
+  unsigned short Config::getTabWidth() const noexcept
   {
     return (config_get_tab_width(_config));
   }
 
   // ---------------------------------------------------------------------------
 
-  void Config::setIncludeDir(const char *includeDir) throw()
+  void Config::setIncludeDir(const char *includeDir) noexcept
   {
     config_set_include_dir(_config, includeDir);
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *Config::getIncludeDir() const throw()
+  const char *Config::getIncludeDir() const noexcept
   {
     return (config_get_include_dir(_config));
   }
@@ -448,7 +448,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  bool Config::exists(const char *path) const throw()
+  bool Config::exists(const char *path) const noexcept
   {
     config_setting_t *s = config_lookup(_config, path);
 
@@ -471,28 +471,28 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, bool &value) const throw()
+  bool Config::lookupValue(const char *path, bool &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, bool, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, int &value) const throw()
+  bool Config::lookupValue(const char *path, int &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, int, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, unsigned int &value) const throw()
+  bool Config::lookupValue(const char *path, unsigned int &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, unsigned int, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, long long &value) const throw()
+  bool Config::lookupValue(const char *path, long long &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, long long, value);
   }
@@ -500,35 +500,35 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   bool Config::lookupValue(const char *path, unsigned long long &value)
-      const throw()
+      const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, unsigned long long, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, double &value) const throw()
+  bool Config::lookupValue(const char *path, double &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, double, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, float &value) const throw()
+  bool Config::lookupValue(const char *path, float &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, float, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, const char *&value) const throw()
+  bool Config::lookupValue(const char *path, const char *&value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, const char *, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, std::string &value) const throw()
+  bool Config::lookupValue(const char *path, std::string &value) const noexcept
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, const char *, value);
   }
@@ -600,14 +600,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::~Setting() throw()
+  Setting::~Setting() noexcept
   {
     _setting = NULL;
   }
 
   // ---------------------------------------------------------------------------
 
-  void Setting::setFormat(Format format) throw()
+  void Setting::setFormat(Format format) noexcept
   {
     if ((_type == TypeInt) || (_type == TypeInt64))
     {
@@ -876,14 +876,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, bool &value) const throw()
+  bool Setting::lookupValue(const char *name, bool &value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, bool, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, int &value) const throw()
+  bool Setting::lookupValue(const char *name, int &value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, int, value);
   }
@@ -891,14 +891,14 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   bool Setting::lookupValue(const char *name, unsigned int &value)
-      const throw()
+      const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, unsigned int, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, long long &value) const throw()
+  bool Setting::lookupValue(const char *name, long long &value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, long long, value);
   }
@@ -906,42 +906,42 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   bool Setting::lookupValue(const char *name, unsigned long long &value)
-      const throw()
+      const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, unsigned long long, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, double &value) const throw()
+  bool Setting::lookupValue(const char *name, double &value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, double, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, float &value) const throw()
+  bool Setting::lookupValue(const char *name, float &value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, float, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, const char *&value) const throw()
+  bool Setting::lookupValue(const char *name, const char *&value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, const char *, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, std::string &value) const throw()
+  bool Setting::lookupValue(const char *name, std::string &value) const noexcept
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, const char *, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::exists(const char *name) const throw()
+  bool Setting::exists(const char *name) const noexcept
   {
     if (_type != TypeGroup)
       return (false);
@@ -953,14 +953,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  int Setting::getLength() const throw()
+  int Setting::getLength() const noexcept
   {
     return (config_setting_length(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *Setting::getName() const throw()
+  const char *Setting::getName() const noexcept
   {
     return (config_setting_name(_setting));
   }
@@ -1002,28 +1002,28 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  unsigned int Setting::getSourceLine() const throw()
+  unsigned int Setting::getSourceLine() const noexcept
   {
     return (config_setting_source_line(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *Setting::getSourceFile() const throw()
+  const char *Setting::getSourceFile() const noexcept
   {
     return (config_setting_source_file(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::isRoot() const throw()
+  bool Setting::isRoot() const noexcept
   {
     return (config_setting_is_root(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  int Setting::getIndex() const throw()
+  int Setting::getIndex() const noexcept
   {
     return (config_setting_index(_setting));
   }

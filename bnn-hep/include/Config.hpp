@@ -109,7 +109,7 @@ class Config
          * no protection against the loop references. If the setting is not found an error is
          * printed and the program is terminated.
          */
-        Setting const & LookupMandatorySetting(string const &path) throw();
+        Setting const & LookupMandatorySetting(string const &path) noexcept;
         
         /**
          * \brief Processes the recursive references.

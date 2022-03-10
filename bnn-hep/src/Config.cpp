@@ -232,7 +232,7 @@ Setting const &Config::LookupSetting(string const &path) throw(SettingNotFoundEx
     return ExpandSetting(cfg.lookup(path));
 }
 
-Setting const &Config::LookupMandatorySetting(string const &path) throw()
+Setting const &Config::LookupMandatorySetting(string const &path) noexcept
 {
     try
     {
