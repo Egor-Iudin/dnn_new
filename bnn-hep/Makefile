@@ -1,9 +1,10 @@
 # Define the flags to control make
 CC = g++
 INCLUDE = -Iinclude -I../libconfig/ -I$(shell root-config --incdir) -I${CMSSW_FWLITE_INCLUDE_PATH}/boost/
-OPFLAGS = -lboost_filesystem -lboost_system
+OPFLAGS =
 CFLAGS = -Wall -fopenmp -Wextra -std=c++17 $(INCLUDE) $(OPFLAGS)
 LDFLAGS = $(shell root-config --libs) -lTreePlayer -L${CMSSW_FWLITE_INCLUDE_PATH}/../lib/ -fopenmp
+ENDFLAGS =  -lboost_filesystem -lboost_system
 EXECUTABLE = bnn-hep
 SOURCES = $(shell ls src/ | grep .cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -21,12 +22,12 @@ vpath %.cpp src
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $+ ../libconfig/libconfig++.a   -o $@
+	$(CC) $(LDFLAGS) $+ ../libconfig/libconfig++.a -o $@  $(ENDFLAGS)
 # '$@' is expanded to the target, '$+' expanded to all the dependencies. See
 # http://www.gnu.org/savannah-checkouts/gnu/make/manual/html_node/Automatic-Variables.html
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(ENDFLAGS)
 # '$<' is expanded to the first dependency
 
 clean:
