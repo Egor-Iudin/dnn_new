@@ -14,6 +14,7 @@
 #include <vector>
 #include <utility>
 
+#define throw(...)
 
 using std::string;
 using std::vector;

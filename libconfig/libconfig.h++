@@ -39,6 +39,8 @@
 #define LIBCONFIGXX_API
 #endif /* WIN32 */
 
+#define throw(...)
+
 #define LIBCONFIGXX_VER_MAJOR 1
 #define LIBCONFIGXX_VER_MINOR 4
 #define LIBCONFIGXX_VER_REVISION 8

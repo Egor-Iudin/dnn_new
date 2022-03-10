@@ -26,6 +26,8 @@
 #pragma warning(disable : 4996)
 #endif
 
+#define throw(...)
+
 #include "wincompat.h"
 #include "libconfig.h"
 

@@ -6,6 +6,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
+#define throw(...)
+
 using std::exit;
 
 Config::Config(string const &fileName, Logger &log_) : log(log_)
