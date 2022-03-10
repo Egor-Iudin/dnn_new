@@ -1,0 +1,3 @@
+This directory defines a set of utilities to simplify usage of the tool in an analysis in
+high-energy physics in general and in CMS in particular. They might have no sense to other fields,
+and for this reason the code is placed in a separate directory.
