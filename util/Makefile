@@ -14,7 +14,7 @@
 
 include ../make.include
 
-all:		programs modules
+all:	programs modules
 
 programs:	data-spec model-spec log-records log-copy log-append log-last \
 			log-equal rand-seed grid series extract combine find-min calc \
@@ -23,9 +23,9 @@ programs:	data-spec model-spec log-records log-copy log-append log-last \
 modules:	misc.o matrix.o log.o quantities.o plt.o hist.o rand.o numin.o \
 			data-trans.o model.o prior.o ars.o digamma.o 
 
-clean:		rm -f *.o data-spec model-spec log-records log-copy log-append log-last \
-	    	log-equal rand-seed grid series extract combine find-min calc \
-			case-indicators *.a
+clean:	rm -f *.o data-spec model-spec log-records log-copy log-append log-last \
+	    log-equal rand-seed grid series extract combine find-min calc \
+		case-indicators *.a
 
 
 include util.make

@@ -1,0 +1,88 @@
+<html>
+<body>
+<pre>
+
+
+LOG-TYPES:  Types of log file records used by various programs.
+
+Users do not usually need to know this information; it is mainly for
+program maintainers.  However, these types are visible in the output
+of the log-records program (see <A HREF="log-records.html">log-records.doc</A>).
+ 
+
+CLASS OF PROGRAMS          TYPE   DESCRIPTION
+
+
+* Any                        r    State of random number generator
+
+
+* Markov Chain Monte Carlo   i    Description of state/events at one iteration
+                             o    List of Monte Carlo operations to apply
+                             s    Explicitly set stepsizes (only some programs)
+
+  Dynamic MCMC               p    Values of "momentum" variables
+                             t    Specification of how to compute trajectories
+
+  Tempered MCMC              m    Schedule of temperatures and maybe biases
+                             b    Current temperature and associated state
+
+  Thermostated dynamics      h    Value of thermostat and corresponding momentum
+
+
+* Specified distribution     d    Specification of distribution
+                             q    Values of variables ("position" variables)
+
+
+* Bivariate Gaussian         B    Specification of bivariate Gaussian 
+                             X    Point from bivariate Gaussian distribution
+
+
+* Multivariate Gaussian      M    Specification of multivariate Gaussian 
+                             X    Point from multivariate Gaussian distribution
+
+
+* Molecular dynamics         M    Specifications of molecular dynamics system
+                             Q    Position coordinates of molecules
+
+
+* Ising system               I    Specification of Ising system
+                             S    State of spins in system
+                             D    Direction to push 
+
+
+* Statistical modeling       D    Data specifications for training and test sets
+                             M    Model specification
+                             V    Characteristics of model for survival data
+
+  Neural network             A    Network architecture
+                             F    Flags modifying architecture
+                             P    Specification of priors for network
+                             S    Hyperparameters ("sigmas")
+                             W    Parameters of network ("weights")
+                             Q    Parameters of quadratic approximation
+
+  Gaussian process           P    Specification and priors
+                             S    Hyperparameters
+                             F    Case-by-case latent values
+                             N    Case-by-case noise variances
+
+  Mixture model              P    Specification and priors
+                             S    Hyperparameters
+                             I    Component indicators for training cases
+                             O    Offset parameters for components
+                             N    Noise variance parameters
+
+  Diffusion tree model       P    Specification and priors
+                             S    Hyperparameters and tree parameters
+                             T    Tree divergence times
+                             R    Parents of nodes in trees
+                             L    Latent vectors for training cases
+                             N    Locations of nodes in trees
+
+  NMR model                  P    Model and prior specification
+                             D    Parameters and latent values
+
+        Copyright (c) 1995-2004 by Radford M. Neal
+</pre>
+</body>
+</html>

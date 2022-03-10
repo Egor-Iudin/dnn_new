@@ -1,0 +1,4 @@
+This is the source code for libconfig ver. 1.4.8:
+  http://www.hyperrealm.com/libconfig/
+The files are taken from bin/ directory of the package's source code. Such a light-weighted way to incorporate the libconfig package was spotted in the implementation of THETA package:
+  https://ekptrac.physik.uni-karlsruhe.de/trac/theta/browser/tags/stable/libconfig

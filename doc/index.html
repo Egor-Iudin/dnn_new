@@ -1,0 +1,297 @@
+<html>
+<head>
+
+<title>Software for Flexible Bayesian Modeling</title>
+
+</head>
+
+<body>
+
+<h1>Software for Flexible Bayesian Modeling</h1>
+
+Version of 2004-11-10.  Copyright (c) 1995-2004 by Radford M. Neal<P>
+
+Index to documentation for software that implements flexible Bayesian
+models based on neural networks, Gaussian processes, mixtures, and
+Dirichlet diffusion trees, and that demonstrates various Markov chain
+Monte Carlo methods.
+
+
+<h2>Introduction, overview, and examples:</h2>
+
+<UL>
+<LI><a href="Copyright.html">Copyright and contact information</a>
+<LI><a href="Facilities.html">Facilities provided by this software</a>
+<LI><a href="Install.html">Installing the software</a>
+<LI><a href="Overview.html">Overview of the software</a>
+<LI><a href="Ex-intro.html">Introduction to the examples</a>
+<LI><a href="Ex-dist.html">Examples of Markov chain sampling for simple 
+    distributions</a>
+    <UL>
+        <LI><a href="Ex-dist-n.html">Sampling from a univariate normal 
+            distribution</a>
+        <LI><a href="Ex-dist-g.html">Sampling from a ring distribution in
+            three dimensions</a>
+        <LI><a href="Ex-dist-f.html">Sampling from a funnel distribution in
+            ten dimensions</a>
+    </UL>
+<LI><a href="Ex-circ.html">Examples of circularly-coupled Markov chain 
+    sampling</a>
+<LI><a href="Ex-bayes.html">Examples of Markov chain sampling for simple 
+    Bayesian models</a>
+    <UL>
+       <LI><a href="Ex-bayes-r.html">A linear regression model</a>
+       <LI><a href="Ex-bayes-t.html">Modeling real-valued data with a 
+           t-distribution</a>
+       <LI><a href="Ex-bayes-p.html">Modeling probabilities for categorical 
+           data</a>
+       <LI><a href="Ex-bayes-e.html">A random effects model</a>
+    </UL>
+<LI><a href="Ex-netgp.html">Examples of flexible Bayesian regression and 
+    classification models based on neural networks and Gaussian processes</a>
+    <UL>
+       <LI><a href="Ex-netgp-r.html">A simple regression problem</a>
+       <LI><a href="Ex-netgp-b.html">A problem with a binary response</a>
+       <LI><a href="Ex-netgp-c.html">A three-way classification problem</a>
+       <LI><a href="Ex-netgp-o.html">A regression problem with outliers</a>
+    </UL>
+<LI><a href="Ex-mixdft.html">Examples of Bayesian mixture models and Dirichlet diffusion tree models</a>
+    <UL>
+       <LI><a href="Ex-mixdft-b.html">A probability estimation problem with 
+                                      binary data</a>
+       <LI><a href="Ex-mixdft-r.html">A bivariate density estimation problem</a>
+       <LI><a href="Ex-dft-a.html">Building an additive model using two diffusion trees</a>
+    </UL>
+<LI><a href="Ex-surv.html">Examples of Bayesian neural network survival models
+    </a>
+<LI><a href="Ex-gdes.html">Examples of learning with gradient descent, early
+    stopping & ensembles</a>
+<LI><a href="Hints.html">Hints and warnings</a>
+<LI><a href="Guide.html">Guide to further documentation</a>
+<LI><a href="Acknowledgements.html">Acknowledgements</a>
+</UL>
+
+
+<h2>Notes on the present release and past releases:</h2>
+
+<UL>
+<LI> <a href="Release.2004-11-10.html">Release of 2004-11-10</a>
+<LI> <a href="Release.2003-06-29.html">Release of 2003-06-29</a>
+<LI> <a href="Release.2001-08-31.html">Release of 2001-08-31</a>
+<LI> <a href="Release.2000-08-21.html">Release of 2000-08-21</a>
+<LI> <a href="Release.1999-12-06.html">Release of 1999-12-06</a>
+<LI> <a href="Release.1999-03-13.html">Release of 1999-03-13</a>
+<LI> <a href="Release.1998-09-01.html">Release of 1998-09-01</a>
+<LI> <a href="Release.1998-08-02.html">Release of 1998-08-02</a>
+<LI> <a href="Release.1997-07-22.html">Release of 1997-07-22</a>
+<LI> <a href="Release.1997-01-18.html">Release of 1997-01-18</a>
+<LI> <a href="Release.1996-08-26.html">Release of 1996-08-26</a>
+<LI> <a href="Release.1995-08-09.html">Release of 1995-08-09</a>
+</UL>
+
+
+<h2>Alphabetical index within directories:</h2>
+<pre>
+   ........ UTIL .........     ..... MC .....    .... DIST .....   ... BVG ...
+
+   <a href="calc.html">calc</a>         <a href="model-spec.html">model-spec</a>     <a href="mc.html">mc</a>                <a href="dist.html">dist</a>              <a href="bvg.html">bvg</a>
+   <a href="data-spec.html">data-spec</a>    <a href="numin.html">numin</a>          <a href="mc-ais.html">mc-ais</a>            <a href="dist-display.html">dist-display</a>      <a href="bvg-initial.html">bvg-initial</a>
+   <a href="extract.html">extract</a>      <a href="prior.html">prior</a>          <a href="mc-quantities.html">mc-quantities</a>     <a href="dist-est.html">dist-est</a>          <a href="bvg-mc.html">bvg-mc</a>
+   <a href="find-min.html">find-min</a>     <a href="quantities.html">quantities</a>     <a href="mc-spec.html">mc-spec</a>           <a href="dist-gen.html">dist-gen</a>          <a href="bvg-plt.html">bvg-plt</a>
+   <a href="formula.html">formula</a>      <a href="rand-seed.html">rand-seed</a>      <a href="mc-temp-filter.html">mc-temp-filter</a>    <a href="dist-initial.html">dist-initial</a>      <a href="bvg-spec.html">bvg-spec</a>
+   <a href="grid.html">grid</a>         <a href="series.html">series</a>         <a href="mc-temp-sched.html">mc-temp-sched</a>     <a href="dist-mc.html">dist-mc</a>
+   <a href="log.html">log</a>          <a href="xxx-hist.html">xxx-hist</a>       <a href="xxx-circ.html">xxx-circ</a>          <a href="dist-quantities.html">dist-quantities</a>
+   <a href="log-append.html">log-append</a>   <a href="xxx-plt.html">xxx-plt</a>        <a href="xxx-genp.html">xxx-genp</a>          <a href="dist-spec.html">dist-spec</a>
+   <a href="log-copy.html">log-copy</a>     <a href="xxx-tbl.html">xxx-tbl</a>        <a href="xxx-grad-test.html">xxx-grad-test</a>     <a href="dist-stepsizes.html">dist-stepsizes</a>
+   <a href="log-equal.html">log-equal</a>                   <a href="xxx-his.html">xxx-his</a>  
+   <a href="log-last.html">log-last</a>                    <a href="xxx-mc.html">xxx-mc</a>  
+   <a href="log-records.html">log-records</a>                 <a href="xxx-stepsizes.html">xxx-stepsizes</a>  
+   <a href="log-types.html">log-types</a>                   <a href="xxx-wrap.html">xxx-wrap</a>  
+
+
+   .... NET .....     .... GP .....    .... MIX .....    .... DFT ....
+
+   <a href="net.html">net</a>                <a href="gp.html">gp</a>               <a href="mix.html">mix</a>               <a href="dft.html">dft</a>
+   <a href="net-approx.html">net-approx</a>         <a href="gp-cov.html">gp-cov</a>           <a href="mix-cases.html">mix-cases</a>         <a href="dft-cases.html">dft-cases</a>
+   <a href="net-dvar.html">net-dvar</a>           <a href="gp-display.html">gp-display</a>       <a href="mix-display.html">mix-display</a>       <a href="dft-dendrogram.html">dft-dendrogram</a>
+   <a href="net-display.html">net-display</a>        <a href="gp-eigen.html">gp-eigen</a>         <a href="mix-gen.html">mix-gen</a>           <a href="dft-display.html">dft-display</a>
+   <a href="net-eval.html">net-eval</a>           <a href="gp-eval.html">gp-eval</a>          <a href="mix-mc.html">mix-mc</a>            <a href="dft-gen.html">dft-gen</a>
+   <a href="net-gd.html">net-gd</a>             <a href="gp-gen.html">gp-gen</a>           <a href="mix-pred.html">mix-pred</a>          <a href="dft-mc.html">dft-mc</a>
+   <a href="net-gen.html">net-gen</a>            <a href="gp-mc.html">gp-mc</a>            <a href="mix-quantities.html">mix-quantities</a>    <a href="dft-pred.html">dft-pred</a> 
+   <a href="net-hist.html">net-hist</a>           <a href="gp-pred.html">gp-pred</a>          <a href="mix-spec.html">mix-spec</a>          <a href="dft-quantities.html">dft-quantities</a> 
+   <a href="net-mc.html">net-mc</a>             <a href="gp-quantities.html">gp-quantities</a>                      <a href="dft-spec.html">dft-spec</a>
+   <a href="net-plt.html">net-plt</a>            <a href="gp-spec.html">gp-spec</a>
+   <a href="net-pred.html">net-pred</a>            
+   <a href="net-quantities.html">net-quantities</a>
+   <a href="net-rej.html">net-rej</a> 
+   <a href="net-spec.html">net-spec</a> 
+   <a href="net-tbl.html">net-tbl</a> 
+</pre>
+
+A more detailed index is given below, with the most important
+documentation files marked with an asterisk.<P>
+
+
+<h2>Generic utility programs [util]:</h2>
+<pre>
+  * <a href="log.html">log</a>             Facilities for handling log files
+    <a href="log-types.html">log-types</a>       Types of log file records used by various programs
+
+    <a href="log-copy.html">log-copy</a>        Copy part of a log file to a new log file
+    <a href="log-append.html">log-append</a>      Append records from one log file to the end of another
+    <a href="log-last.html">log-last</a>        Display the index of the last record in a log file
+    <a href="log-records.html">log-records</a>     List all records in a log file
+    <a href="log-equal.html">log-equal</a>       Check if records in log files match
+
+    <a href="formula.html">formula</a>         Syntax for arithmetic formulas
+    <a href="calc.html">calc</a>            Simple calculator program
+
+  * <a href="data-spec.html">data-spec</a>       Specify data sets for training and testing
+  * <a href="numin.html">numin</a>           Facilities for input of numeric data
+
+  * <a href="model-spec.html">model-spec</a>      Specify model for targets
+  * <a href="prior.html">prior</a>           Meaning and syntax of prior specifications
+
+    <a href="find-min.html">find-min</a>        Find entry with minimum value (for cross validation)
+
+    <a href="grid.html">grid</a>            Output a grid of points
+    <a href="extract.html">extract</a>         Extract items at random from a data file
+
+  * <a href="rand-seed.html">rand-seed</a>       Specify a random number seed
+
+  * <a href="quantities.html">quantities</a>      Numeric quantities obtainable from log files
+
+  * <a href="xxx-plt.html">xxx-plt</a>         Write quantities from log files, suitable for plotting
+    <a href="xxx-tbl.html">xxx-tbl</a>         Write quantities from log files in a tabular form
+    <a href="xxx-hist.html">xxx-hist</a>        Build a histogram for a quantity using data from log files
+
+  * <a href="series.html">series</a>          Analyse stationary time series data
+</pre>
+
+
+<h2>Markov chain Monte Carlo facilities [mc]:</h2>
+<pre>
+  * <a href="mc.html">mc</a>              Programs and modules supporting Markov chain Monte Carlo
+  * <a href="mc-spec.html">mc-spec</a>         Specify how to do the Markov chain simulation
+  * <a href="xxx-mc.html">xxx-mc</a>          Run a Markov chain simulation
+  * <a href="xxx-circ.html">xxx-circ</a>        Do a circularly-coupled simulation
+  * <a href="xxx-wrap.html">xxx-wrap</a>        Create wrapped-around chain from existing simulation run
+
+  * <a href="mc-quantities.html">mc-quantities</a>   Quantities from log files relating to Monte Carlo
+
+    <a href="mc-temp-sched.html">mc-temp-sched</a>   Specify temperature schedule for tempering methods
+    <a href="mc-temp-filter.html">mc-temp-filter</a>  Copy only iterations at a given temperature
+    <a href="mc-ais.html">mc-ais</a>          Monitor annealed importance sampling (AIS) runs
+
+    <a href="xxx-grad-test.html">xxx-grad-test</a>   Test the correctness of the energy gradient computations
+    <a href="xxx-stepsizes.html">xxx-stepsizes</a>   Display and evaluate stepsizes used for dynamics
+    <a href="xxx-genp.html">xxx-genp</a>        Generate random momentum variables
+
+    <a href="xxx-his.html">xxx-genp</a>        Do Hamiltonian importance sampling
+</pre>
+
+<h2>Markov chain sampling for a specified distribution [dist]:</h2>
+<pre>
+  * <a href="dist.html">dist</a>            Markov chain sampling for a specified distribution
+  * <a href="dist-spec.html">dist-spec</a>       Specify a distribution to sample from
+
+    <a href="dist-initial.html">dist-initial</a>    Specify initial state for Markov chain
+    <a href="dist-stepsizes.html">dist-stepsizes</a>  Display, evaluate, or set stepsizes used for dynamics
+  * <a href="dist-mc.html">dist-mc</a>         Do Markov chain sampling for the specified distribution
+    <a href="dist-gen.html">dist-gen</a>        Generate values for state variables from the prior
+
+    <a href="dist-display.html">dist-display</a>    Print state variables at a specified iteration
+  * <a href="dist-quantities.html">dist-quantities</a> Quantities defined for a specified distribution
+
+  * <a href="dist-est.html">dist-est</a>        Estimate the expectation of some function of state
+</pre>
+
+<h2>Markov chain sampling for a bivariate Gaussian [bvg]:</h2>
+<pre>
+    <a href="bvg.html">bvg</a>             Demo of Markov chain sampling from a bivariate Gaussian
+    <a href="bvg-spec.html">bvg-spec</a>        Specify a bivariate Gaussian distribution to sample from
+
+    <a href="bvg-initial.html">bvg-initial</a>     Set initial state for sampling from a bivariate Gaussian
+    <a href="bvg-mc.html">bvg-mc</a>          Do Markov chain simulation for a bivariate Gaussian
+
+    <a href="bvg-plt.html">bvg-plt</a>         Get quantities from a bvg log file, suitable to plot
+</pre>
+
+
+<h2>Bayesian neural networks [net]:</h2>
+<pre>
+  * <a href="net.html">net</a>             Bayesian inference for neural networks using MCMC
+  * <a href="net-spec.html">net-spec</a>        Create a new network, or display existing specifications
+
+  * <a href="net-mc.html">net-mc</a>          Do Markov chain simulation to sample networks
+  * <a href="net-gen.html">net-gen</a>         Generate networks from the prior, or with fixed values
+    <a href="net-approx.html">net-approx</a>      Specify quadratic approximation to replace log likelihood
+    <a href="net-gd.html">net-gd</a>          Train a network by gradient descent in the error
+
+  * <a href="net-display.html">net-display</a>     Print network parameters and/or hyperparameters
+
+  * <a href="net-quantities.html">net-quantities</a>  Quantities from log files relating to networks
+  * <a href="net-plt.html">net-plt</a>         Get quantities from net log files, suitable for plotting
+    <a href="net-tbl.html">net-tbl</a>         Get quantities from net log files and output as table
+    <a href="net-hist.html">net-hist</a>        Build histogram for quantity obtained from net log files
+
+  * <a href="net-pred.html">net-pred</a>        Make predictions for test cases
+
+    <a href="net-eval.html">net-eval</a>        Evaluate network functions over a grid
+    <a href="net-dvar.html">net-dvar</a>        Find the variance of a difference in function values
+
+    <a href="net-rej.html">net-rej</a>         Generate networks from the posterior by rejection sampling
+</pre>
+
+<h2>Gaussian process models [gp]:</h2>
+<pre>
+  * <a href="gp.html">gp</a>              Bayesian modelling using Gaussian processes
+  * <a href="gp-spec.html">gp-spec</a>         Specify a Gaussian process model, or display existing spec
+
+  * <a href="gp-mc.html">gp-mc</a>           Use Markov chain to sample Gaussian process hyperparameters
+  * <a href="gp-gen.html">gp-gen</a>          Generate GP hyperparameters randomly, or fix them
+
+  * <a href="gp-display.html">gp-display</a>      Print Gaussian process hyperparameters & other information
+  * <a href="gp-quantities.html">gp-quantities</a>   Quantities from log files relating to Gaussian processes
+
+  * <a href="gp-pred.html">gp-pred</a>         Make predictions for test cases using Gaussian process
+    <a href="gp-eval.html">gp-eval</a>         Evaluate function drawn from a Gaussian process over a grid
+
+    <a href="gp-cov.html">gp-cov</a>          Print covariance matrix for a Gaussian process 
+    <a href="gp-eigen.html">gp-eigen</a>        Find eigenvalues/vectors of covariance matrix
+</pre>
+
+<h2>Bayesian inference for mixture models [mix]:</h2>
+<pre>
+  * <a href="mix.html">mix</a>             Bayesian inference for mixture models
+  * <a href="mix-spec.html">mix-spec</a>        Specify a mixture model, or display existing spec
+
+  * <a href="mix-mc.html">mix-mc</a>          Use Markov chain to do sampling for a mixture model
+  * <a href="mix-gen.html">mix-gen</a>         Generate hyperparameters randomly, or fix them
+
+  * <a href="mix-display.html">mix-display</a>     Print mixture model parameters, hyperparameters, etc.
+  * <a href="mix-quantities.html">mix-quantities</a>  Quantities from log files relating to mixture models
+
+  * <a href="mix-pred.html">mix-pred</a>        Make predictions for tests cases using mixture models
+    <a href="mix-cases.html">mix-cases</a>       Generate cases from a mixture model
+</pre>
+
+<h2>Bayesian inference for Dirichlet diffusion tree models [dft]:</h2>
+<pre>
+  * <a href="dft.html">dft</a>             Bayesian inference for diffusion tree models
+  * <a href="dft-spec.html">dft-spec</a>        Specify a diffusion tree model, or display existing spec
+
+  * <a href="dft-mc.html">dft-mc</a>          Use Markov chain to do sampling for a diffusion tree model
+  * <a href="dft-gen.html">dft-gen</a>         Generate hyperparameters randomly, or fix them
+
+  * <a href="dft-display.html">dft-display</a>     Print diffusion tree model parameters, hyperparameters, etc.
+    <a href="dft-dendrogram.html">dft-dendrogram</a>  Create Postscript representation of a dendrogram of a tree
+  * <a href="dft-quantities.html">dft-quantities</a>  Quantities from log files relating to diffusion tree models
+
+  * <a href="dft-pred.html">dft-pred</a>        Make predictions for test cases using diffusion tree model
+
+    <a href="dft-cases.html">dft-cases</a>       Generate cases from a diffusion tree model
+</pre>
+
+</body>
+</html>

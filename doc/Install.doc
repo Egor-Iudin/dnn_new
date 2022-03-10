@@ -1,0 +1,146 @@
+
+
+INSTALLING THE SOFTWARE
+
+This section describes how to unpack and compile the software for a
+Unix machine.  Note that getting the software to work in a non-Unix
+environment may be difficult or impossible.
+
+
+Unpacking the files.
+
+The software is distributed as a Unix tar archive.  To obtain the
+files, download the tar archive for the desired version by anonymous
+ftp or via your Web browser to a file of the form 'fbm.YYYY-MM-DD.tar', 
+and then issue the Unix command
+
+    tar xf fbm.YYYY-MM-DD.tar
+
+If you got the archive in compressed form, as 'fbm.YYYY-MM-DD.tar.Z',
+you must use the command "uncompress fbm.YYYY-MM-DD.tar.Z" before
+doing the above.  The following instructions cover what to do next for
+the current version; you should read the old documentation if for some
+reason you are installing an older version.
+
+The tar command should create a directory called 'fbm.YYYY-MM-DD',
+where YYYY-MM-DD is the release date.  It should place numerous files
+and sub-directories in this directory.  If this seems to have worked,
+you can remove the file 'fbm.YYYY-MM-DD.tar'.  You should now change
+into the 'fbm.YYYY-MM-DD' directory, as the following instructions
+assumed that you are there.
+
+If you prefer that this directory be called something other than
+'fbm.YYYY-MM-DD', change the name now, BEFORE compiling the programs,
+since the programs look for a file of random numbers in the directory
+under the name it had when they were compiled.
+
+
+Looking at the documentation.
+
+The directory 'doc' contains links to all the documentation files.
+The file 'manual' contains all the introductory documentation
+(including this) as a simple text file; the same information is also
+contained in several .doc files.  Other .doc files contain more
+detailed information.  Files of the form 'Release.YYYY-MM-DD.doc'
+contain information on current and past releases.  These may be of
+interest if you are upgrading from an older version of the software.
+
+If you have a Web browser, you can access all these documentation
+files via 'index.html' in the 'doc' directory, as described in
+Guide.doc.
+
+
+Compiling the programs.
+
+You will probably be able to compile the programs as described below
+without making having to change anything.  However, it is possible
+that you will want to use a different C compiler, or set certain
+compilation options.  You can probably set the required options by
+modifying the 'make.include' file in the main directory, which is
+included at the beginning of all Makefiles, though for some problems
+you might have to modify the 'Makefile' and 'xxx.make' files in the
+various sub-directories, or modify the source files.
+
+Here are some reasons that you might need to customize things:
+
+  1) The programs are written in ANSI standard C.  If you compiler
+     defaults to some other idea of what C is, you should try to
+     persuade it otherwise.  On DEC Alpha machines, the "-std" flag
+     does this.  It can be put in CFLAGS in 'make.include'.
+
+  2) The programs were written with IEEE floating-point in mind, and
+     therefore may occasionally perform operations that result in
+     overflow or underflow.  If this causes program termination on
+     your machine (eg, with a "floating point exception"), you will
+     need to figure out how to disable these errors.  On DEC Alpha
+     machines, for example, the problem can be fixed using a "-ieee"
+     compiler option, which can be put in CFLAGS in 'make.include'.
+
+  3) The 'util' directory contains a file of 100,000 natural random
+     bytes, which are used in combination with pseudo-random numbers
+     This file is accessed by many of the programs, using a path 
+     name that by default points into this 'util' directory.  If you 
+     plan on moving this file elsewhere, you will need to change the 
+     compilation command for rand.c at the end of 'util/util.make'.
+
+  4) If you are rather short of memory, you might want to reduce the
+     size of the Max_optional_memory constant defined in gp/gp-mc.c.
+     This will save memory at the cost of some time.
+
+Once you have made any required changes, you can compile the programs
+by going to the main directory where you installed the software and
+issuing the command
+
+    make-all
+
+This will compile programs in the various sub-directories.  Note that
+some modules will be compiled over again in each directory where they
+are used; this is intentional.
+
+It is possible that these compilation commands will fail for some
+reason, in which case you'll have to figure out what's wrong and fix
+it.  Note that the 'make-all' command just moves into each of the
+directories and does a 'make' there.  You can do this manually for
+each directory to see where the problem is.  For these makes to work
+correctly, the programs MUST be kept in separate 'util', 'mc', 'dist',
+'bvg', 'net', 'gp', and 'mix' sub-directories, with these names.
+
+
+Using the programs.
+
+Once you have successfully compiled the programs, you should put the
+'bin' directory (within the main directory for this software) in your
+search path.  How this is done depends on the shell program you are
+using; consult a local expert if you don't know how.  This directory
+contains symbolic links to all the programs making up this software.
+Subsequent instructions assume that you have this 'bin' directory in
+your search path.
+
+The above is the simple version of how to use the programs.  However,
+if you want to use the programs on more than one type of machine, you
+will need to compile them several times, once for each machine
+architecture, and you will need to set your search path to a directory
+that contains the versions of the programs compiled for the machine
+you are currently using.  By convention, these directories should be
+called "bin.ARCH", where ARCH is the name of the machine architecture.
+The shell file install-arch creates such a directory (if necessary)
+and copies the programs from the "bin" directory to the "bin.ARCH"
+directory for the current architecture.  It is assumed that a program
+called 'arch' exists that returns the name of the architecture.
+
+
+Cleaning things up.
+
+Once the compilations have finished, you can save some disk space by
+issuing the command
+
+    rm */*.o
+
+when you are in the main directory.  You can get rid of the compiled
+programs by using the command
+
+    make-clean
+
+when in the main directory.  Of course, you then won't be able to use
+the programs until you do another make-all to recompile them, unless
+you had copied them to a "bin.ARCH" directory.

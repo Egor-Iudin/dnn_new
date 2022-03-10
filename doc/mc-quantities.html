@@ -1,0 +1,78 @@
+<html>
+<body>
+<pre>
+
+
+MC-QUANTITIES:  Quantities from log files relating to Monte Carlo simulation.
+
+The quantities below relating to Markov chain Monte Carlo can be
+obtained from log files (eg, for use in xxx-plt).  Note that the
+generic quantities documented in <A HREF="quantities.html">quantities.doc</A> will also be
+available, as will quantities specific to the particular Markov chain
+application being used.
+
+    T   Temperature used (see <A HREF="xxx-mc.html">xxx-mc.doc</A>, NOT from the tempering schedule)
+    E   Potential energy at end of iteration
+    E0  Potential energy at end of iteration at inverse temperature of 0
+    E1  Equal to E - E0
+    K   Kinetic energy at end of iteration
+    K0  Expected value of kinetic energy, equal to half the dimensionality 
+    H   Total energy at end of iteration (sum of E and K)
+    D[n] Change in total energy for last state proposed (up to max of n)
+         (for Metropolis, hybrid, and multivariate slice sampling operations)
+
+    i   Inverse temperature being used (from the tempering schedule)
+    I   Index of current inverse temperature value in schedule
+    j   Direction of change for inverse temperature
+    J   Higher temperature for attempted transition (meaningful only if
+        last operation in iteration was sim-temp)
+    Q[n] Importance weight, or log of importance weight (see below)
+    F[n] Factor for estimating ratio of normalizing constants using
+         tempered transitions (see below).
+
+    d   Heatbath decay factor used in this iteration
+    f   Stepsize factor used in this iteration
+    r   Rejection rate for this iteration
+    e   Average number of evaluations per slice sampling update this iteration
+    k   Cumulative cpu usage in minutes.
+
+    m   Point last moved to relative to starting point
+    m0  Point moved to relative to lowest point for spiral and double-spiral
+    m1  Starting point relative to lowest point for spiral and double-spiral
+    m2  Switch point for double-spiral operations
+    m3  Equal to m0-m2 (double-spiral only)
+    m4  Equal to m1-m2 (double-spiral only)
+    m5  Equal to |m3|-|m4|
+
+    qn  Component n of position
+    pn  Component n of momentum
+    sn  Stepsize selected by application for component n
+
+None of these quantities can be used with a range; 'q', 'p', and 's'
+must have a modifier; 'D' and 'Q' may have a modifier; 'E' may only
+have a modifier of '0' or '1'; 'K' may only have a modifier of '0';
+the others may not have a modifier.
+
+The 'Q' quantity is the importance weight, which will always be one
+except during annealed importance sampling.  Note that these weights
+might sometimes be so extreme that this value overflows or underflows.
+If a modifier of 0 is given to 'Q', the value is the log of the
+importance weight, which is much less likely to be out of bounds.  If
+a modifier n greater than zero is given for 'Q', the value is the log
+of the importance weight unless that is less than -n, in which case
+the value is -n.
+
+The 'F' quantities are factors obtained from the last tempered
+transition in the iterations, which can be averaged to estimate the
+ratio of normalizing constants for the distribution at temperature one
+to that of the distribution at the highest temperature.  The 'F1'
+quantity is based on only the first half of the tempered transition.
+The 'F2' quantity is based on both halves if the tempered transition
+is accepted, and is otherwise based on just the first half.
+
+Momenta of zero are assumed if none exist.
+
+            Copyright (c) 1995-2004 by Radford M. Neal
+</pre>
+</body>
+</html>

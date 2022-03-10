@@ -1,0 +1,207 @@
+
+
+GUIDE TO FURTHER DOCUMENTATION
+
+The overview and examples above are intended just to get you started.
+To use the software to do real work, you will probably need to refer
+to the detailed documentation on the commands (and on the features
+common to more than one command) that is contained in the files ending
+with ".doc".  These files are found in the various sub-directories,
+and are also all linked to from the 'doc' directory.  For quick
+reference, all commands print a brief summary of the command syntax
+when they are invoked with no arguments.
+
+In the syntax descriptions used, the characters "[" and "]" enclose
+parts of the command that are optional, "{" and "}" enclose optional
+parts that can be repeated, and "|" separates alternatives.  Except
+for the command name (or other obvious keywords), the words in the
+syntax descriptions are descriptive of what is to be entered, except
+that words in quotes are to be entered literally (without the quotes).
+
+The ".doc" files present in the various directories are listed below,
+with the more important files marked by "*".  Programs listed as
+"xxx-something" are generic, with "xxx" being replaced by the name of
+an application (eg, "net", "gp", or "mix").  In some cases, further
+documentation is available under the specific name.
+
+The file index.html is a hypertext index to this documentation.  It
+can be accessed using a Web browser (eg, netscape), by opening
+index.html as a local file (which will probably require giving its
+full path name).  The index.html file must reside in the 'doc'
+directory for this software, so that relative references will work
+correctly.  The files accessed this way are .html files derived from
+the .doc files.  The content is identical, except that references to
+other .doc files have been converted into hypertext links that you can
+follow with the browser.
+
+The 'doc' directory also contains comments on the various software
+releases, in files of the form 'Release.YYYY-MM-DD.doc'.
+
+All the introductory documentation (including this) is collected into
+the 'manual' file, as plain text.  You can print all the documentation
+by going to the main directory for this software and issuing a command
+such as
+
+  lpr doc/manual util/*.doc mc/*.doc dist/*.doc bvg/*.doc \
+      net/*.doc gp/*.doc mix/*.doc dft/*.doc doc/Rel*.doc
+ 
+(or using whatever command other than 'lpr' you use to print text files).
+This will produce about 200 pages of paper.
+
+
+Generic utility programs [util]:
+
+  * log             Facilities for handling log files
+    log-types       Types of log file records used by various programs
+
+    log-copy        Copy part of a log file to a new log file
+    log-append      Append records from one log file to the end of another
+    log-last        Display the index of the last record in a log file
+    log-records     List all records in a log file  
+    log-equal       Check if records in log files match
+
+    formula         Syntax for arithmetic formulas
+    calc            Simple calculator program
+
+  * data-spec       Specify data sets for training and testing
+  * numin           Facilities for input of numeric data
+
+  * model-spec      Specify model for targets
+  * prior           Meaning and syntax of prior specifications
+
+    find-min        Find entry with minimum value (for cross validation)
+
+    grid            Output a grid of points  
+    extract         Extract items at random from a data file 
+
+  * rand-seed       Specify a random number seed  
+
+  * quantities      Numeric quantities obtainable from log files
+
+  * xxx-plt         Write quantities from log files, suitable for plotting
+    xxx-tbl         Write quantities from log files in a tabular form
+    xxx-hist        Build a histogram for a quantity using data from log files
+
+  * series          Analyse stationary time series data
+
+
+Markov chain Monte Carlo facilities [mc]:
+
+  * mc              Programs and modules supporting Markov chain Monte Carlo 
+  * mc-spec         Specify how to do the Markov chain simulation
+  * xxx-mc          Run a Markov chain simulation
+  * xxx-circ        Do a circularly-coupled simulation
+  * xxx-wrap        Create wrapped-around chain from existing simulation run
+
+  * mc-quantities   Quantities from log files relating to Monte Carlo 
+
+    mc-temp-sched   Specify temperature schedule for tempering methods
+    mc-temp-filter  Copy only iterations at a given temperature
+    mc-ais          Monitor annealed importance sampling (AIS) runs
+
+    xxx-grad-test   Test the correctness of the energy gradient computations
+    xxx-stepsizes   Display and evaluate stepsizes used for dynamics
+    xxx-genp        Generate random momentum variables
+
+    xxx-his         Do Hamiltonian importance sampling
+
+
+Markov chain sampling for a specified distribution [dist]:
+
+  * dist            Markov chain sampling for a specified distribution
+  * dist-spec       Specify a distribution to sample from
+
+    dist-initial    Specify initial state for Markov chain
+    dist-stepsizes  Display, evaluate, or set stepsizes used for dynamics
+  * dist-mc         Do Markov chain sampling for the specified distribution
+    dist-gen        Generate values for state variables from the prior
+
+    dist-display    Print state variables at a specified iteration
+  * dist-quantities Quantities defined for a specified distribution
+
+  * dist-est        Estimate the expectation of some function of state
+
+
+Markov chain sampling for a bivariate Gaussian [bvg]:
+
+    bvg             Demo of Markov chain sampling from a bivariate Gaussian
+    bvg-spec        Specify a bivariate Gaussian distribution to sample from
+
+    bvg-initial     Set initial state for sampling from a bivariate Gaussian
+    bvg-mc          Do Markov chain simulation for a bivariate Gaussian
+
+    bvg-plt         Get quantities from a bvg log file, suitable to plot
+
+
+Bayesian neural networks [net]:
+
+  * net             Bayesian inference for neural networks using MCMC
+  * net-spec        Create a new network, or display existing specifications 
+
+  * net-mc          Do Markov chain simulation to sample networks
+  * net-gen         Generate networks from the prior, or with fixed values  
+    net-approx      Specify quadratic approximation to replace log likelihood
+    net-gd          Train a network by gradient descent in the error
+
+  * net-display     Print network parameters and/or hyperparameters
+
+  * net-quantities  Quantities from log files relating to networks
+  * net-plt         Get quantities from net log files, suitable for plotting
+    net-tbl         Get quantities from net log files and output as table
+    net-hist        Build histogram for quantity obtained from net log files
+
+  * net-pred        Make predictions for test cases
+
+    net-eval        Evaluate network functions over a grid  
+    net-dvar        Find the variance of a difference in function values
+
+    net-rej         Generate networks from the posterior by rejection sampling
+
+
+Gaussian process models [gp]:
+
+  * gp              Bayesian modelling using Gaussian processes
+  * gp-spec         Specify a Gaussian process model, or display existing spec
+
+  * gp-mc           Use Markov chain to sample Gaussian process hyperparameters
+  * gp-gen          Generate GP hyperparameters randomly, or fix them
+
+  * gp-display      Print Gaussian process hyperparameters & other information
+  * gp-quantities   Quantities from log files relating to Gaussian processes
+
+  * gp-pred         Make predictions for test cases using Gaussian process
+    gp-eval         Evaluate function drawn from a Gaussian process over a grid
+
+    gp-cov          Print covariance matrix for a Gaussian process 
+    gp-eigen        Find eigenvalues/vectors of covariance matrix
+
+
+Bayesian inference for mixture models [mix]:
+
+  * mix             Bayesian inference for mixture models
+  * mix-spec        Specify a mixture model, or display existing spec
+
+  * mix-mc          Use Markov chain to do sampling for a mixture model
+  * mix-gen         Generate hyperparameters randomly, or fix them
+
+  * mix-display     Print mixture model parameters, hyperparameters, etc.
+  * mix-quantities  Quantities from log files relating to mixture models
+
+  * mix-pred        Make predictions for tests cases using mixture models
+    mix-cases       Generate cases from a mixture model
+
+
+Bayesian inference for Dirichlet diffusion tree models [dft]:
+
+  * dft             Bayesian inference for diffusion tree models
+  * dft-spec        Specify a diffusion tree model, or display existing spec
+
+  * dft-mc          Use Markov chain to do sampling for a diffusion tree model
+  * dft-gen         Generate hyperparameters randomly, or fix them
+
+  * dft-display     Print diffusion tree model parameters, hyperparameters, etc.
+    dft-dendrogram  Create Postscript representation of a dendrogram of a tree
+  * dft-quantities  Quantities from log files relating to diffusion tree models
+
+  * dft-pred        Make predictions using Dirichlet diffusion trees
+    dft-cases       Generate cases from a diffusion tree model

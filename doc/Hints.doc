@@ -1,0 +1,90 @@
+
+
+HINTS AND WARNINGS
+
+1) The error messages for invalid specifications of quantities for
+   the plot programs are not very specific.  You should remember that
+   quantities may be scalars or arrays, or sometimes either.  If the 
+   quantity you want is an array, you have to include a "@" character.  
+   To further complicate matters, some quantities take numeric modifiers,
+   which are distinct from array indexes.  See quantities.doc and the 
+   specific documentation on quantities for each application for more 
+   details.
+
+2) Some confusion is possible regarding hyperparameter values because
+   they can be looked at in three ways:  as standard deviations (widths),
+   as variances (squares of the standard deviations), and as precisions
+   (inverse variances).  In particular, note that although the priors 
+   for hyperparameters are described in terms of Gamma distributions for
+   the precisions, their scale is specified in the net-spec and
+   model-spec commands in terms of the corresponding standard deviations.
+
+3) When there is a single output unit in a network, a specification of 
+   the form "w:a:b" for the hidden-to-output weights is mathematically
+   equivalent to one of the form "w:a::b".  The two specifications
+   differ computationally, however.  In the "w:a:b" form, lower-level
+   hyperparameters that each control a single weight are explicitly
+   represented; with "w:a::b", equivalent hyperparameters exist
+   mathematically, but are not represented explicitly.  The "w:a:b"
+   form is probably to be preferred, since explicit hyperparameters 
+   are of assistance to the heuristic procedure that chooses
+   stepsizes for the dynamical updates.
+
+4) Poor conditioning of matrix operations used for Gaussian processes
+   can be a problem with the "sample-values" and "scan-values" operations, 
+   and for the 'gp-eval' program.  The symptoms are error messages about
+   Cholesky decompositions or matrix inversions not working.  Assuming 
+   that these aren't due to bugs in the software, the solution is to
+   improve the conditioning of the covariance matrix, hopefully without
+   making the model depart to any significant degree from what you really
+   wanted.  Conditioning can be improved in three main ways:
+  
+      a) Decrease the constant part of the covariance function.  There's
+         almost never any reason for this to be greater than the range of
+         the targets in the training cases, assuming the targets are
+         centred at about zero.
+
+      b) Increase the jitter part of the covariance.  For 'gp-eval' with
+         the "targets" option, noise in the regression model acts the 
+         same way as jitter.  Of course, increasing the jitter changes
+         the model.
+
+      c) Use a power less than 2 in an exponential part of the covariance.
+         Poor conditioning results when the covariance has only constant, 
+         linear, and exponential parts, with the exponential part having
+         a power of 2 (the default), corresponding to smooth functions.  
+         Decreasing the power makes the functions less smooth, and hence
+         less predictable, which makes the matrix better conditioned.
+
+      d) Use scan-values rather than sample-values.  The prior covariance
+         matrix that is inverted in scan-values is probably less likely
+         to be poorly conditioned than the posterior covariance matrix
+         inverted in sample-values.  However, scan-values does not produce
+         independent draws, so convergence may be slower.
+
+5) When using Annealed Importance Sampling, be careful that the number
+   of temperatures in the annealing schedule (set by mc-temp-sched) is
+   what you intend.  Remember that there's one more at the end (at a 
+   temperature of one) that isn't explicitly specified.  Also be careful 
+   that the number of AIS operations in the mc-spec command is such as to
+   move through this schedule as desired.  You can check that things are 
+   working as desired with a command such as such as "xxx-plt t I".  If 
+   you get things wrong, looking at the iterations that were supposed to 
+   be at inverse temperature one but aren't will give completely misleading
+   results.
+
+6) If the system crashes in the middle of a run of 'net-mc' (say), one
+   can usually continue from the last iteration written to the log file 
+   by just invoking 'net-mc' again with the same arguments (just as 
+   one can continue for more iterations after 'net-mc' terminates 
+   normally).  Problems could arise if the system crashed in the middle 
+   of writing the records pertaining to an iteration, in which case some 
+   fixup using 'log-copy' may be required.  Such problems could come
+   either from a partial record at the end of the log file, or from
+   a less-than-complete set of full records.  It is best to assess the 
+   situation using 'log-records' before proceeding.
+
+7) If you need to change the name of a program to avoid conflicts with 
+   other programs you use, it is probably best to simply change the name 
+   of the link in this software's 'bin' directory, leaving the name 
+   unchanged in all the other directories.
