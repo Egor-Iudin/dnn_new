@@ -1,0 +1,132 @@
+
+
+NET-PRED:  Make predictions for test cases using neural network model.
+
+Net-pred prints guesses at the target values for a set of test cases.
+Guesses are as defined by a network or set of networks.  If the true
+targets are known, performance of the guesses can also be evaluated.
+Inputs can be printed as well.  
+
+If Annealed Importance Sampling was used, the marginal likelihood of
+the model will be displayed. 
+
+Usage:
+
+    net-pred options { log-file range } [ / test-inputs [ test-targets ] ]
+
+The final optional arguments give the source of inputs and targets for
+the cases to look at; they default to the test data specification in
+the first log file given.  The networks to use in making guesses are
+taken from the records with the given ranges of indexes in the given
+log files.  The outputs of all these networks are combined to give a
+single guess for each case.  The networks should all have the same
+architecture, and use the same data specifications.
+
+An index range can have one of the forms "[low][:[high]][%mod]" or
+"[low][:[high]]+num", or one of these forms preceded by "@".  When "@"
+is present, "low" and "high" are given in terms of cpu time, otherwise
+they are iteration numbers.  When just "low" is given, only that index
+is used.  If the colon is included, but "high" is not, the range
+extends to the highest index in the log file.  The "mod" form allows
+networks to be selected whose iteration numbers are multiples of
+"mod", with the default being "mod" of one.  The "num" form allows the
+total number of networks used to be specified; they are distributed as
+evenly as possible within the specified range.  Note that it is
+possible that the number of networks used in the end may not equal
+this number, if records with some indexes are missing.
+
+The 'options' argument consists of one or more of the following letters:
+
+    i   Display the input values for each case
+    t   Display the target values for each case
+    r   Use the raw form of the target values, before transformation
+
+    p   Display the log probability of the true targets (to base e)
+
+    m   Display the guess based on the mode, and whether it is in error
+    n   Display the guess based on the mean, and its squared error
+    d   Display the guess based on the median, and its absolute error
+    D   Display the guess based on the mean of the median for each iteration.
+        This is mostly useful to get an accurate median for one network.
+
+    q   Display the 10% and 90% quantiles of the predictive distributions
+        for the targets.  Note that these distributions include the noise.
+    Q   Display the 1% and 99% quantiles of the predictive distributions.
+
+    b   Suppress headings and averages - just bare numbers for each case.
+        The numbers are printed in exponential format, to high precision.
+    B   Bare numbers, but with blank lines whenever first input changes
+
+    a   Display only average log probabilities and errors, suppressing 
+        the results for individual cases (makes sense only in combination 
+        with one or more of 'p', 'm', 'n', and 'd', and not with 'i' or 't')
+
+    E   Display the expected error for test cases, based on the predictive 
+        probabilities, as well as the actual error (if targets are known).
+        Currently implemented only for "binary" data.
+
+    0-9 If any of these characters are used, output connections from 
+        hidden layers other than those named are suppressed.  Input-output
+        connections and output biases are also suppressed.  This option
+        is useful in seeing the components of an additive network model.
+        (But note that if the identity of a component can change during a 
+        run, this option will be meaningful only when the predictions are 
+        based on a single iteration.)
+
+Some of these options are illegal for some data models.  The illegal
+combinations are marked with an 'X' in the following table:
+
+        binary  class  real-valued  survival  no-model
+
+    r     X       X
+    p                                            X
+    m                      X           X         X
+    n                   
+    d/D   X       X    
+    q/Q   X       X    
+
+Furthermore, the 'a' option is incompatible with 'b', 'i', 't', or
+'q', and the 't', 'p', and 'a' options may be used only if the true
+targets are given.  The errors for individual cases are also displayed
+only if the true targets are known. The 'n' option for class models
+displays the mean probabilities for each class, and computes a single
+figure for squared error that is the sum of the squares of the
+differences between these probabilities and the indicator variables
+that are one for the right class and zero for the wrong classes. 
+
+The median and quantiles for the 'd', 'q', and 'Q' options are
+calculated by Monte Carlo, using a sample consisting of 101 points
+from each network's target distribution.  These computations are not
+allowed if the data is weighted, as produced with Annealed Importance
+Sampling.  These Monte Carlo estimates are found using a random number
+stream initialized by setting the seed to one at the start of the
+program.  Accuracy can be increased by repeating the same
+log-file/range combination several times, effectively increasing the
+sample size use.
+
+The mean median found using 'D' is calculated exactly, without Monte
+Carlo.  This option is mostly useful for survival models, when a
+single iteration specified, since it then produces an accurate value
+for the median prediction with that one network (more accurate than
+would be obtained using 'd').  No error value is produced to go with
+the mean median.
+
+Each average performance figure is accompanied by +- its standard
+error (as long as there is more than one test case).  If Annealed
+Importance Sampling was done, the estimated marginal likelihood is
+also accompanied by an estimated standard error, as long as the
+"adjusted sample size" (defined in mc-ais.doc) is at least two.  Note
+that the actual error might be much larger than the estimated standard
+error if the AIS runs have missed an important part of the
+distribution.
+
+For survival data, if the survival time in a test case is censored,
+the censoring time (coded as negative) is used as the time of death
+for the purpose of computing squared or absolute error.  This is not
+very meaningful.
+
+If only inputs and targets are to be displayed (no predictions), one
+may give just a single log file with no range.  Otherwise, at least
+one network must be specified.
+
+            Copyright (c) 1995-2004 by Radford M. Neal

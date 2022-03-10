@@ -1,0 +1,8 @@
+(cd util;        echo " "; echo "Making programs in util directory";        echo " "; make)
+(cd mc;          echo " "; echo "Making programs in mc directory";          echo " "; make)
+(cd net;         echo " "; echo "Making programs in net directory";         echo " "; make)
+(cd libconfig;   echo " "; echo "Making libconfig library";                 echo " "; make)
+(cd bnn-hep;     echo " "; echo "Making programs in bnn-nice directory";    echo " "; make)
+(cd convenience; echo " "; echo "Making programs in convenience directory"; echo " "; make)
+
+echo " "; echo "Done making programs in all directories"; echo " "

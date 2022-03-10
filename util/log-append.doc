@@ -1,0 +1,40 @@
+
+
+LOG-APPEND:  Append records from one log file to the end of another.
+
+Log-append takes certain records from one log file and appends them to
+the end of another log file (which must already exist).  This is
+useful for initializing iterative programs using the state from a
+previous run.  It is also dangerous, however, as no check is made for
+whether the records appended make sense in the new context.
+
+Usage:
+
+   log-append [ -ignoredtype...] logfile-in [ range ] logfile-out [ index ]
+
+The records with indexes in the indicated range are read from
+logfile-in and appended to the end of logfile-out, except that records
+with the types given in the optional first argument are ignored.  (See
+log-types.doc for a listing of conventionally-used record types.)  The
+range has the usual form of [low][:[high]][%modulus], as described in
+parse_range in misc.c.  If high and the colon are omitted, high
+defaults to low.  If high is omitted but the colon is present, the
+range extends to the end of the file.  If no range is specified, it
+defaults to the last index for which any records are stored.  Records
+with negative indexes are never copied.
+
+The records copied are appended to logfile-out, with consecutive
+indexes.  If no final argument is given, these indexes start after the
+index of the last existing record; if the final argument is "-", they
+start at the index of the last existing record.  In either case, the
+indexes start at 0 if only records with negative indexes are present.
+If a number is given as the final index argument, the indexes of
+records start at that number, which must be no smaller than the index
+of the last existing record in the file.
+
+In the most typical usage, logfile-out contains only specifications,
+with indexes of -1, and the range to copy consists of a single index.
+In this case, the records appended will have index 0, which is
+suitable for initialization of an iterative program.
+
+            Copyright (c) 1995-2004 by Radford M. Neal

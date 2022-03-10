@@ -1,0 +1,8 @@
+(cd util;        echo " "; echo "Cleaning util directory";           echo " "; make clean)
+(cd mc;          echo " "; echo "Cleaning mc directory";             echo " "; make clean)
+(cd net;         echo " "; echo "Cleaning net directory";            echo " "; make clean)
+(cd libconfig;   echo " "; echo "Cleaning libconfig directory";      echo " "; make clean)
+(cd bnn-hep;     echo " "; echo "Cleaning bnn-nice directory";       echo " "; make clean)
+(cd convenience; echo " "; echo "Cleaning in convenience directory"; echo " "; make clean)
+
+echo " "; echo "Done cleaning all directories"; echo " "
