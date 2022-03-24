@@ -2,8 +2,8 @@
 #
 # You may wish to modify this file to fit your local installation.
 
-CC     = gcc                              # C compiler to use
-CFLAGS = -O $(shell root-config --cflags) # C compiler options when compiling .c files to .o files
+CC     = gcc                                  # C compiler to use
+CFLAGS = -O $(shell root-config --cflags)     # C compiler options when compiling .c files to .o files
 
 
-LFLAGS = $(shell root-config --libs)      # Options when linking .o files; sometimes -lstdc++ option is needed
+LFLAGS = $(shell root-config --libs) -lstdc++ # Options when linking .o files; sometimes -lstdc++ option is needed

@@ -67,7 +67,7 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
     // indices to source file's name. Note that the code can handle cases when the same source file
     // appears several times
     map<string, vector<unsigned long>> trainEventsIndices;
-    // map<string,int> trinnnigSize;
+
     map<string, int> trannnigSize;
     // Loop over all the input samples
     int samples_index = 0;
@@ -178,7 +178,7 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
         // The user specified the desired number of events in the training set only
         {
             // A vector to define the order according to which the tree will be read
-            log << info(1) << "No TrainningFileName" << nEntries << eom;
+            log << info(1) << "No TrainningFileName " << nEntries << eom;
             vector<unsigned long> eventsToRead;
             eventsToRead.reserve(nEntries);
 
@@ -203,7 +203,7 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
 
             if (trainListCurFile.size() > 0)
             {
-                log << info(1) << "No TrainningFileName111   " << eom;
+                log << info(1) << "No TrainningFileName" << eom;
 
                 for (unsigned index = 0; index < trainListCurFile.front(); ++index)
                     untestedEvents.push_back(index);
@@ -230,26 +230,18 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
             // Read the tree in the specified order and fill the local training set
             unsigned long nEntriesRead = 0;
 
-            log << info(1) << "No TrainningFileName maxFraction  " << sample.maxFractionTrainEvents << eom;
-            log << info(1) << "No TrainningFileName  sample.maxTrainEvents " << sample.maxTrainEvents << eom;
+            log << info(1) << "No TrainningFileName maxFraction " << sample.maxFractionTrainEvents << eom;
+            log << info(1) << "No TrainningFileName sample.maxTrainEvents " << sample.maxTrainEvents << eom;
             while (nEntriesRead < nEntries * sample.maxFractionTrainEvents and
                    nEntriesRead < nEntries)
             {
                 srcTree->LoadTree(eventsToRead.at(nEntriesRead));
-                //                Double_t const weightValue = weight->EvalInstance();
-                Double_t weightValue = weight->EvalInstance();
-                // cout<<"weight="<<weightValue<<endl;
-                // if (IsWeightChange)
 
-                //	weightValue = weightValue*1000;
+                Double_t weightValue = weight->EvalInstance();
 
                 if (weightValue > 0.)
                 {
                     localTrainingSet.emplace_back(sample.type, weightValue, vars, samples_index);
-                    // localTrainingSet.emplace_back(sample.type, weightValue, vars);
-                    // printf("bbbbb %d\ n",nEntriesRead);
-                    // getchar();//else
-                    //    log << info(1) << " weightValue != 0."<< eom;
                 }
                 ++nEntriesRead;
 
@@ -262,7 +254,7 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
 
             nEventsTriedForTraining = localTrainingSet.size();
 
-            log << info(1) << "No TrainningFileName333  " << nEntriesRead << eom;
+            log << info(1) << "No TrainningFileName " << nEntriesRead << eom;
 
             // If needed, extend the list of events tried for training for the current source file
             if (nEntriesRead > trainListCurFile.size()) // some of untestedEvents were read
@@ -287,13 +279,12 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
         // corrected
 
         double const weightCorrFactor = double(nEntries) / nEventsTriedForTraining;
-        cout << " " << nEventsTriedForTraining << "   " << nEntries << "weightcorrFactor= " << weightCorrFactor << endl;
+        cout << " " << nEventsTriedForTraining << " " << nEntries << " weightcorrFactor = " << weightCorrFactor << endl;
         // getchar();
 
         for (Event &event : localTrainingSet)
         {
             event.weight *= weightCorrFactor;
-            // log << info(1) <<  event<< eom;
         }
 
         // Sort the vector of indices of events tried for training
