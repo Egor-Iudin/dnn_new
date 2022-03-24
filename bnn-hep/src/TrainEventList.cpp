@@ -1,15 +1,14 @@
 #include "TrainEventList.hpp"
-
 #include <algorithm>
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
 #include <map>
 #include "stdio.h"
+
 using std::fstream;
 using std::string;
 using std::vector;
-// using std;
 
 // Converts access mode from TrainEventList to its std::fstream analogy
 std::ios_base::openmode dispatchAccessMode(TrainEventList::Mode mode)
@@ -54,8 +53,6 @@ void TrainEventList::WriteList(string const &sampleFileName,
     // Copy and sort the provided vector of indices
     vector<unsigned long> events(begin, end);
     std::sort(events.begin(), events.end());
-    // printf("XXXXXXXXXXXXXXXXXXXxx");
-    // getchar();
 
     // Count duplicates
     unsigned nDuplicates = 0;
@@ -117,7 +114,7 @@ bool TrainEventList::ReadList(string const &sampleFileName)
     // Set the get pointer to the beginning of the file and reset possible EOF bit
     fileStream.seekg(0, std::ios::beg);
     fileStream.clear(); // sic!
-    // std::cout<<1;
+
     //  Find the line that contains the sample file name
     string const shortFileName = sampleFileName.substr(sampleFileName.find_last_of('/') + 1);
     string line;
@@ -135,22 +132,10 @@ bool TrainEventList::ReadList(string const &sampleFileName)
 
     // Skip two lines (an empty one and a comment)
     std::getline(fileStream, line);
-    // std::cout<<"1 "<<	line<<"\n";
     std::getline(fileStream, line);
-    // std::cout<<"2 "<<	line<<"\n";
-
-    // std::cout<<2<<"\n";
     std::getline(fileStream, line);
-    // std::cout<<"3 "<<	line<<"\n";
-
     std::getline(fileStream, line);
-    //	std::cout<<"4 "<<	line<<"\n";
-
     std::getline(fileStream, line);
-    // std::cout<<"5 "<<	line<<"\n";
-
-    // std::getline(fileStream, line);
-    // std::cout<<"6 "<<	line<<"\n";
 
     // Read the number of events
     fileStream >> nEventsRead;
@@ -162,7 +147,6 @@ bool TrainEventList::ReadList(string const &sampleFileName)
     // Read the list of events
     eventsRead.reserve(nEventsRead);
     unsigned long ev;
-    // std::cout<<3;
 
     for (unsigned long i = 0; i < nEventsRead; ++i)
     {
@@ -171,8 +155,6 @@ bool TrainEventList::ReadList(string const &sampleFileName)
         std::ostringstream ost;
         ost << "ev= " << ev;
     }
-
-    // std::cout<<4<<"\n";
 
     // All done
     listRead = true;

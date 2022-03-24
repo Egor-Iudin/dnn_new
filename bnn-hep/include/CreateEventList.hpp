@@ -14,6 +14,6 @@
 class CreateEventList
 {
 
-public: CreateEventList(const string  config_);
-
-} ;
+public:
+    CreateEventList(const string config_);
+};

@@ -20,44 +20,34 @@ CreateEventList::CreateEventList(const string config_)
 	vector<string> Files;
 	vector<int> FilesSizes;
 	ifstream file(config_ + "_trainEvents.txt");
-	// cout<<argv[1]<< "!!!!!! "<<argv[2]<<'\n';
 	string content;
 	bool inting = false;
 	while (file >> content)
 	{
-		// cout<< content<< "\n";
-
 		if (content == "training")
 		{
 			inting = true;
 			continue;
 		}
-		// if ( strchr("0123456789",*content)!=0)
 		if (content == "###########################################################################")
 		{
 			inting = false;
 			if (eventsList.size() > 0)
 				ListEventList.push_back(eventsList);
 			eventsList.clear();
-			// getchar();
 		}
 		if (inting == true)
 		{
-			// cout << content << ' ';
 			eventsList.push_back(atoi(content.c_str()));
-
-			// getchar();
 		}
 		if (content == "file")
 		{
 			file >> content;
-			// cout<< content<< "\n";
 			Files.push_back(content);
 		}
 		if (content == "eventsSize")
 		{
 			file >> content;
-			// cout<< content<< "\n";
 			FilesSizes.push_back(atoi(content.c_str()));
 		}
 	}
@@ -70,23 +60,17 @@ CreateEventList::CreateEventList(const string config_)
 	{
 		int Nevents = 0;
 		int eventNumber = 0;
-		// cout<<"First List !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
-		// srand ( time(NULL) );
+
 		vector<int> eventsnumberlist;
-		// for (int j; j<FilesSizes.size(); j++)
-		// cout<<"FileSizes"<<j <<"  "<<FilesSizes[j]<<"\n";
 		int sampleLen = FilesSizes[Nlist];
+
 		for (int i = 0; i < sampleLen; i++)
 			eventsnumberlist.push_back(i);
+
 		std::random_shuffle(eventsnumberlist.begin(), eventsnumberlist.end(), RandomInt);
-		// cout<<"NextFile!!!!!!!!!!!!" <<eventsnumberlist.size()<<"\n";
-		// for (int k=0; k<FilesSizes.size(); k++)
-		// cout<<"FileSizes2"<<k <<"  "<<FilesSizes[k]<<"\n";
 
 		while (Nevents < ListEventList[Nlist].size())
 		{
-
-			// eventNumber = rand() % FilesSizes[Nlist] ;
 			if (std::find(ListEventList[Nlist].begin(), ListEventList[Nlist].end(), eventsnumberlist[eventNumber]) == ListEventList[Nlist].end())
 			{
 				eventsListToWrite.push_back(eventsnumberlist[eventNumber]);
@@ -97,24 +81,18 @@ CreateEventList::CreateEventList(const string config_)
 		std::sort(eventsListToWrite.begin(), eventsListToWrite.end());
 		ListEventListToWrite.push_back(eventsListToWrite);
 		eventsListToWrite.clear();
-		// cout<<"Nevents  "<<Nevents<<" ListEventSize    " << ListEventList[Nlist].size()<<"\n";
-		// getchar();
 	}
 	std::fstream fs;
 	fs.open(config_ + "_ExamEvents.txt", std::fstream::out);
 
-	//    ifstream fileToExam(");
 	for (int Nfiles = 0; Nfiles < Files.size(); Nfiles++)
 	{
-		// int Nevents=0;
 		int FileSize;
 		int eventNumber = 0;
-		// cout<<"First List !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
 		fs << "###########################################################################\n";
 
 		fs << "# Name of the file\n"
 		   << Files[Nfiles].c_str() << "\n\n";
-		// fs << "# Name of the file\n" << Files[Nfiles].c_str()<<"\n\n";
 		fs << "# Sample eventsSize\n"
 		   << FilesSizes[Nfiles] << "\n\n";
 		fs << "# Number of events\n"
@@ -135,6 +113,4 @@ CreateEventList::CreateEventList(const string config_)
 		fs << "\n\n\n";
 	}
 	fs.close();
-
-	// return 0;
 }

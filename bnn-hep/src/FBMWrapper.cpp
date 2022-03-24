@@ -25,11 +25,8 @@ FBMWrapper::FBMWrapper(Logger &log_, Config const &config_, InputProcessor const
 	netFiles = TrainBNN();
 	for (int i = 0; i < netFiles.size(); ++i)
 	{
-		// string ExamEventFile =	GetTaskName() + "_ExamEvents.txt";
-
-		log << info(1) << "nEntries=" << netFiles[i].c_str() << eom; //= ExamEventFile;
+		log << info(1) << "nEntries=" << netFiles[i].c_str() << eom; // = ExamEventFile;
 	}
-	// getchar();
 	log << info(1) << "Training is completed11." << eom;
 }
 
@@ -37,7 +34,6 @@ FBMWrapper::~FBMWrapper()
 {
 	if (not config.GetKeepTempFiles())
 	{
-		//       remove(BNNFileName.c_str());
 		log << info(2) << "Temporary file \"" << BNNFileName << "\" removed." << eom;
 	}
 }
@@ -51,15 +47,12 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 	int bbin = config.GetBNNMCMCBurnIn();
 
 	std::vector<std::string> listFiles;
-	//#pragma omp parallel
 	{
 		string newFile = BNNFileName.substr(0, BNNFileName.size() - 4);
-		// newFileName<<BNNFileName.erese<<
 		log << info(1) << newFile << eom;
 		ostringstream newFileName;
 		int exitCode;
 
-		//    #pragma omp parallel for private(command)
 		for (int iter = 0; iter < config.GetBNNMCMCIterations(); iter++)
 		{
 			// ostringstream newFileName;
@@ -74,7 +67,7 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 			command << FBMPath << "net-spec " << newFile << " " << inputProcessor.GetDim() << " " << config.GetBNNNumberNeurons() << " 1 / " << config.GetBNNHyperparameters();
 			log << info(1) << command.str().c_str() << eom;
 			exitCode = system(command.str().c_str());
-			// getchar();
+
 			if (exitCode != 0)
 			{
 				log << critical << "\"" << command.str() << "\" terminated with an error." << eom;
@@ -86,7 +79,6 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 			command << FBMPath << "rand-seed " << newFile << " " << RandomInt(32767);
 			log << info(1) << command.str().c_str() << eom;
 			exitCode = system(command.str().c_str());
-			// getchar();
 
 			if (exitCode != 0)
 			{
@@ -99,7 +91,6 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 			command << FBMPath << "model-spec " << newFile << " binary";
 			log << info(1) << command.str().c_str() << eom;
 			exitCode = system(command.str().c_str());
-			// getchar();
 
 			if (exitCode != 0)
 			{
@@ -148,18 +139,15 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 
 			double randv = rand() % 10;
 			log << info(1) << randv << eom;
-			// getchar();
 			double fix = randv + 0.2;
 			log << info(1) << fix << eom;
-			//#pragma omp critical
-			//{
+
 			listFiles.push_back(newFile);
-			//}
+
 			command.str("");
 			command << FBMPath << "net-gen " << newFile << " " << config.GetBNNGenerationParameters();
 
 			log << info(1) << command.str().c_str() << eom;
-			//	getchar();
 
 			exitCode = system(command.str().c_str());
 
@@ -172,12 +160,9 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 			// Treat the first training iteration in a special way
 		}
 
-// getchar();
 #pragma omp parallel for
 		for (int iter = 0; iter < config.GetBNNMCMCIterations(); iter++)
 		{
-			// #pragma omp barrier
-
 			int exitCode1;
 			ostringstream newFileName1;
 			ostringstream command1;
@@ -194,9 +179,8 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 			command1 << FBMPath << "net-mc " << newFile1 << " "
 					 << " 1";
 			cout << "info" << command.str().c_str() << endl;
-			// getchar();
+
 			exitCode1 = system(command1.str().c_str());
-			// getchar();
 
 			if (exitCode1 != 0)
 			{
@@ -211,13 +195,9 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 
 			cout << "info" << command1.str().c_str() << endl;
 			exitCode1 = system(command1.str().c_str());
-			// command << FBMPath << "net-display " << newFile1 << " " << config.GetBNNMCMCBurnIn();
-			// getchar();
-			//	getchar();
 
 			if (exitCode1 != 0)
 			{
-				// log << critical << "\"" << command.str() << "\" terminated with an error." << eom;
 				exit(1);
 			}
 			FILE *fp;
@@ -226,7 +206,6 @@ std::vector<std::string> FBMWrapper::TrainBNN() const
 			fclose(fp);
 		}
 #pragma omp taskwait
-		// getchar();
 	}
 
 	return listFiles;
@@ -246,7 +225,6 @@ NeuralNetwork FBMWrapper::ReadNN(unsigned index) const
 	string line;
 
 	std::string newFile = BNNFileName.substr(0, BNNFileName.size() - 4);
-	// newFileName<<BNNFileName.erese<<
 	log << info(1) << newFile << eom;
 	ostringstream newFileName;
 	newFileName << newFile << "_" << index << ".net";
@@ -286,7 +264,7 @@ NeuralNetwork FBMWrapper::ReadNN(unsigned index) const
 	for (unsigned l = 1; l < NNArchitecture.size(); ++l)
 	{
 		getline(output, line);
-		// getchar();
+
 		if (line.find("Weights") == string::npos)
 			ErrorWrongOutput(command.str());
 
@@ -309,7 +287,7 @@ NeuralNetwork FBMWrapper::ReadNN(unsigned index) const
 
 		getline(output, line); // skip an empty line
 		getline(output, line);
-		// getchar();
+
 		if (line.find("Biases") == string::npos)
 			ErrorWrongOutput(command.str());
 

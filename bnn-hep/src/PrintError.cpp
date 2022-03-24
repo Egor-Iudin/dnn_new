@@ -47,7 +47,6 @@ PrintError::PrintError(std::vector<std::string> Files)
 	float *EnsembleNumberList;
 	std::tuple<float *, float *, float *, float *, float *, float *, int> distrvalues;
 	std::cout << "PrintError start " << Files.size() << std::endl;
-	// float *NumbersListLong;
 	ErrorList = (float *)malloc(3000 * sizeof(double));
 	ROCList = (float *)malloc(3000 * sizeof(double));
 	ROCExamList = (float *)malloc(3000 * sizeof(double));
@@ -651,16 +650,16 @@ void PrintError::PrintGraphError1(int n, float *x, float *y, int nE, float *xE, 
 	mg->SetName(gname);
 	// printf("3 \n");
 
-	//   getchar();
+	// getchar();
 	// TCanvas *c5 = new TCanvas("c5","A Simple Graph Example",10,10,10,10);
 	// Double_t x1[n1],z[n1], y1[n1];
 	// c5->SetFillColor(42);
 	// c5->SetGrid();
 	// for (int i = 0; i<n; i++)
-	//{
-	//  x1[i]=i;
-	//  y1[i]=i;
-	//}
+	// {
+	// 	x1[i]=i;
+	// 	y1[i]=i;
+	// }
 
 	//	getchar();
 	TGraph *gr = new TGraph(n, x, y);
@@ -719,7 +718,7 @@ void PrintError::PrintGraphError1(int n, float *x, float *y, int nE, float *xE, 
 	f.Write();
 	f.Close();
 	// gr->Print("TestGraph.pdf")
-	//  TCanvas::Update() draws the frame, after which one can change it
+	// TCanvas::Update() draws the frame, after which one can change it
 	// c5->Update();
 	// c5->GetFrame()->SetFillColor(21);
 	// c5->GetFrame()->SetBorderSize(12);

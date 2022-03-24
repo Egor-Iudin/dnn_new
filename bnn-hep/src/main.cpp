@@ -48,18 +48,17 @@ int main(int argc, char **argv)
     InputProcessor inputProcessor(log, config, true);
 
     InputProcessor inputProcessorExam(log, config, false);
-    // getchar();
+
     inputProcessor.SetExamFileName(inputProcessorExam.GetExamFileName());
 
     DNNCodeMaker DNNcoder(log, config, inputProcessor);
 
-    // getchar();
     //  Perform the training
     FBMWrapper fbm(log, config, inputProcessor);
 
     // Write the C++ file needed to apply the BNN
     CodeMaker coder(log, config, inputProcessor, fbm);
-    // f getchar();
+
     PrintError printError(fbm.netFiles);
 
     // Everything is done

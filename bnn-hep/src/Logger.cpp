@@ -35,10 +35,6 @@ Logger::Logger(unsigned stdVerbLevel_, unsigned fileVerbLevel_, std::string cons
 
 Logger::~Logger()
 {
-    // if (file)
-    //     file->close();
-
-    // delete file;
 }
 
 Logger &Logger::operator<<(EndOfMessage__ (*)())

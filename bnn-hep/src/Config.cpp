@@ -10,7 +10,6 @@ using std::exit;
 
 Config::Config(string const &fileName, Logger &log_) : log(log_)
 {
-    //    getchar();
     // Read the configuration file
     try
     {
@@ -79,16 +78,6 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
     ReadSamples("input-samples.signal-samples", 1, defTrainWeight, defExamWeight, defTreeNames);
     ReadSamples("input-samples.background-samples", 0, defTrainWeight, defExamWeight, defTreeNames);
 
-    /*log << info << "Samples: ";
-
-    for (auto const &s: samples)
-    {
-        log << "(" << s.fileName << ", " << s.trees[0] << ", " << s.trainWeight << ", " <<
-         s.maxTrainEvents << ", " << s.maxFractionTrainEvents << "); ";
-    }
-
-    log << eom;*/
-
     // Check for pathologies
     auto samplesBegin = samples.cbegin(), samplesEnd = samples.cend();
 
@@ -144,19 +133,16 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
         // inputTransformations.push_back(InputTransformation::PCA);
     }
 
-    //       getchar();
-    //    std::cout<<"ttttt 00000"<<std::endl;
-
     // Read the section on the BNN training
     networkName = ReadParameterDef("bnn-parameters.network-name",
                                    taskName + "_" + GetRandomName() + ".net");
-    //   std::cout<<"ttttt 11111"<<std::endl;
+
     // Create the directories for the network file if they do not exist
     boost::filesystem::path const networkPath(networkName);
-    //    std::cout<<"ttttt 3333"<<std::endl;
+
     if (networkPath.has_parent_path())
-        boost::filesystem::create_directories(networkPath.parent_path()); //
-                                                                          //    std::cout<<"ttttt 11111"<<std::endl;
+        boost::filesystem::create_directories(networkPath.parent_path());
+
     // The short name which is used to construct the names of some other files
     networkShortName = networkPath.filename().stem().native();
 
@@ -173,7 +159,7 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
         log << error << "An unexpected value \"" << reweightingTypeText << "\" is specified for \"bnn-parameters.rescale-weights\" parameter." << eom;
         exit(1);
     }
-    std::cout << "ttttt 11111" << std::endl;
+
     numberNeurons = ReadParameter("bnn-parameters.number-neurons", unsigned());
     networkHyperparameters = ReadParameterDef("bnn-parameters.network-hyperparameters",
                                               string("- 0.05:0.5 0.05:0.5 - x0.05:0.5 - 100"));
@@ -186,10 +172,6 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
     burnInIterations = ReadParameterDef("bnn-parameters.burn-in", unsigned(0));
     numberIterations = ReadParameter("bnn-parameters.ensemble-size", unsigned());
 
-    //    std::cout<<"ttttt 11111"<<std::endl;
-
-    //    getchar();
-
     // Read the section on the output C++ code for BNN
     // This part of configuration is currently hidden
     // = ReadParameterDef("write-bnn.file-name", taskName + ".py");
@@ -197,12 +179,8 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
 
     networkCPPFileName = ReadParameterDef("write-bnn.file-name", taskName + ".hpp");
     boost::filesystem::path const networkCPPFilePath(networkCPPFileName);
-    //   std::cout<<"ttttt 222222"<<std::endl;
 
-    //    getchar();
     networkPYFileName = networkCPPFileName;
-    //  std::cout<<"ttttt 222222"<<networkPYFileName<<networkCPPFileName<<std::endl;
-    //   getchar();
 
     int index = 0;
     while (true)
@@ -214,11 +192,9 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
 
         /* Make the replacement. */
         networkPYFileName.replace(index, 4, "C.py");
-        //    std::cout<<"ttttt 222222"<<networkPYFileName<<networkCPPFileName<<std::endl;
-
         index += 4;
     }
-    //    getchar();
+
     if (networkCPPFilePath.has_parent_path())
         boost::filesystem::create_directories(networkCPPFilePath.parent_path());
 
@@ -425,12 +401,11 @@ std::vector<std::string> Config::GetRootFiles()
     for (int i = 0; i < samples.size(); ++i)
     {
         listRootFiles.push_back(samples[i].fileName);
-        // std::cout<<
     }
 
     for (int i = 0; i < listRootFiles.size(); ++i)
     {
-        std::cout << "ttttt " << listRootFiles[i].c_str() << std::endl;
+        std::cout << listRootFiles[i].c_str() << std::endl;
     }
     return listRootFiles;
 }
@@ -439,8 +414,6 @@ void Config::PrintEventListFile()
 {
     for (int i = 0; i < samples.size(); ++i)
     {
-        // string ExamEventFile =	GetTaskName() + "_ExamEvents.txt";
-
         log << info(1) << "nEntries=" << samples[i].trainEventsFileName << eom; //= ExamEventFile;
     }
 }

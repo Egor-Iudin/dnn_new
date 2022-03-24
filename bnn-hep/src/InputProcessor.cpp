@@ -38,12 +38,9 @@ InputProcessor::InputProcessor(Logger &log_, Config &config_, bool trianorExam) 
         config.SetEventListFile();
         config.PrintEventListFile();
 
-        // getchar();
         BuildTrainingSet(false);
-        // transforms.clear();
-        cout << "111111111111111" << endl;
+
         TransformInputs();
-        cout << "111111111111111" << endl;
 
         WriteTrainFile(false);
     }
@@ -56,7 +53,6 @@ InputProcessor::~InputProcessor()
 
     if (not config.GetKeepTempFiles())
     {
-        //        std::remove(trainingFileName.c_str());
         log << info(2) << "Temporary file \"" << trainingFileName << "\" removed." << eom;
     }
 }
@@ -79,12 +75,9 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
     {
         // Open the file and construct the source tree
         bool IsWeightChange = false;
-        cout << "IsWeightChange!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
         if (strstr(sample.fileName.c_str(), "/afs/cern.ch/work/g/gvorotni/public/samples/13TeV/17-06-21_new_vars/tuples_merged/Wjets.root") != NULL)
         {
             IsWeightChange = true;
-            cout << "IsWeightChange!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-            // getchar();
         }
 
         TFile srcFile(sample.fileName.c_str());
@@ -122,8 +115,8 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
         // The formulas to be evaluated when reading the tree
         TTreeFormula *weight =
             new TTreeFormula(sample.trainWeight.c_str(), sample.trainWeight.c_str(), srcTree);
-        cout << "weight !!!! " << sample.trainWeight.c_str() << endl;
-        // getchar();
+        cout << "Weight: " << sample.trainWeight.c_str() << endl;
+
         if (weight->GetNdim() == 0) // TTreeFormula sets it to zero in case of error
         {
             log << critical << "Input variable \"" << sample.trainWeight << "\" cannot be "
@@ -147,7 +140,6 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
 
         // The training set made from the current file only
         list<Event> localTrainingSet;
-        // List<Event> LocalExamSet;
 
         unsigned long nEventsTriedForTraining = 0;
 
@@ -160,27 +152,18 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
             readTrainEvents.ReadList(sample.fileName);
             auto const &eventsForTraining = readTrainEvents.GetReadEvents();
             cout << "EventsToTrainnig " << eventsForTraining.size() << '\n';
-            // getchar();
             //  Read the requested events from the tree
             for (auto const &ev : eventsForTraining)
             {
                 srcTree->LoadTree(ev);
-                // log << info(1) <<  ev<< eom;
 
                 Double_t weightValue = weight->EvalInstance();
-                // cout<<"weight ="<<weightValue<<endl;
-                // if (IsWeightChange)
-                //	weightValue = weightValue*1000;
-                // log << info(1) <<  weightValue<< eom;
 
                 if (weightValue > 0.)
                 {
                     localTrainingSet.emplace_back(sample.type, weightValue, vars, samples_index);
-                    // printf("aaaaaaa %d \n",ev);
-                    // getchar();
                 }
             }
-            // log << info(1)<<"Last Event" <<  eventsForTraining.end()<< eom;
             nEventsTriedForTraining = eventsForTraining.size();
 
             // Memorize the list of events tried for training to write it down later. There is no
@@ -217,7 +200,6 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
             // First, find this complementary set of indices (note that trainListCurFile is ordered)
             vector<unsigned long> untestedEvents;
             untestedEvents.reserve(nEntries - trainListCurFile.size());
-            cout << "66666" << endl;
 
             if (trainListCurFile.size() > 0)
             {
@@ -273,7 +255,7 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
 
                 if (localTrainingSet.size() == sample.maxTrainEvents)
                 {
-                    log << info(1) << "Break!!!!!!!!!! " << nEntriesRead << eom;
+                    log << info(1) << "Break! " << nEntriesRead << eom;
                     break;
                 }
             }
@@ -293,7 +275,6 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
             log << info(0) << "Sample \"" << sample.fileName << "\" number of events " << nEntries << " train number " << nEntriesRead << " ratio " << 100. * float(nEntriesRead) / float(nEntries) << eom;
         }
 
-        cout << "777777" << endl;
         samples_index++;
         // Free memory for the formulas and the tree
         for (auto const &v : vars)
@@ -329,7 +310,7 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
     {
         TrainEventList writeTrainEvents(config.GetTaskName() + "_trainEvents.txt",
                                         TrainEventList::Mode::Write);
-        cout << "9999999" << endl;
+
         writeTrainEvents.trannnigSize = trannnigSize;
         // Loop over the map with vectors of indices of events tried for training and write them to the
         // file
@@ -349,14 +330,11 @@ void InputProcessor::BuildTrainingSet(bool trainOrExam)
     // Here I sacrifice the computational efficiency to the clearness and perform an additional loop
     unsigned long nEvents = 0;
     double sumWeights[2] = {0., 0.};
-    cout << "aaaaaaaaa" << endl;
     for (Event const &event : trainingSet)
     {
         ++nEvents;
         sumWeights[event.type] += event.weight; // type == 1 for signal and 0 for background
     }
-    cout << "bbbbbbbbbbb" << endl;
-    // getchar();
     //  Loop again and rescale the weights
     switch (config.GetReweightingType())
     {
@@ -447,7 +425,7 @@ void InputProcessor::WriteTrainFile(bool trainOrExam) const
     else
         wrFile = examFileName;
     log << info(1) << "FileName =" << wrFile.c_str() << eom;
-    // getchar();
+
     TFile outFile(wrFile.c_str(), "recreate");
 
     TTree *outTree = new TTree("Vars", "Tree containing the training set");
@@ -466,8 +444,6 @@ void InputProcessor::WriteTrainFile(bool trainOrExam) const
 
         outTree->Branch(ost.str().c_str(), vars + iVar);
     }
-
-    cout << "55555555" << endl;
 
     // Fill the tree
     for (auto const &event : trainingSet)
@@ -500,11 +476,8 @@ string const &InputProcessor::GetTrainFileName() const
 void InputProcessor::SetExamFileName(string fff)
 
 {
-
     examFile1 = fff;
     log << info(2) << "The training set is written in file \"" << trainingFileName << "\"." << eom;
-
-    // return fff;
 }
 
 string const &InputProcessor::GetExamFileName() const

@@ -144,13 +144,6 @@ void TransformGauss::BuildTransformationImp()
         histogram_t cdfHist = weighted_p_square_cumulative_distribution(*t.accum);
         auto const range = weighted_extended_p_square(*t.range);
 
-        /* DEBUG:
-        std::cout << "Range: " << range[0] << ", " << range[1] << '\n';
-        std::cout << "Cumulative: ";
-        for (auto const &b: cdfHist)
-            std::cout << b.first << ", ";
-        std::cout << "\n\n";*/
-
         // Copy the Boost histogram into a list
         std::list<Bin> hist;
 
@@ -179,13 +172,6 @@ void TransformGauss::BuildTransformationImp()
             t.cdf[i] = b.content;
             ++i;
         }
-
-        /*/ DEBUG:
-        std::cout << "Range: " << range[0] << ", " << range[1] << '\n';
-        std::cout << "Cumulative: ";
-        for (unsigned i = 0; i < t.cdfBins; ++i)
-            std::cout << t.x[i] << " (at " << t.cdf[i] <<"), ";
-        std::cout << "\n\n";*/
 
         // We don't need the accumulator anymore
         delete t.accum;
