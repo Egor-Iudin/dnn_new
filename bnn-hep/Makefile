@@ -1,9 +1,9 @@
 # Define the flags to control make
 CC = g++
-INCLUDE = -Iinclude -I../libconfig/ -I$(shell root-config --incdir) -I/cvmfs/cms.cern.ch/slc7_amd64_gcc900/external/boost/1.75.0/include/boost/
+INCLUDE = -Iinclude -I../libconfig/ -I$(shell root-config --incdir)
 OPFLAGS =
-CFLAGS = -Wall -fopenmp -Wextra -std=c++17 $(INCLUDE) $(OPFLAGS)
-LDFLAGS = $(shell root-config --libs) -lTreePlayer -L/cvmfs/cms.cern.ch/slc7_amd64_gcc900/external/boost/1.75.0/lib/ -lboost_system -lboost_filesystem -fopenmp
+CFLAGS = -Wall -fopenmp -Wextra -std=c++11 $(INCLUDE) $(OPFLAGS)
+LDFLAGS = $(shell root-config --libs) -lTreePlayer -lboost_system -lboost_filesystem -fopenmp
 EXECUTABLE = bnn-hep
 SOURCES = $(shell ls src/ | grep .cpp)
 OBJECTS = $(SOURCES:.cpp=.o)

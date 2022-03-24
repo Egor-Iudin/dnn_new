@@ -63,11 +63,11 @@ namespace libconfig
     SettingException(const SettingException &other);
     SettingException &operator=(const SettingException &other);
 
-    virtual ~SettingException() noexcept;
+    virtual ~SettingException() throw();
 
     const char *getPath() const;
 
-    virtual const char *what() const noexcept override;
+    virtual const char *what() const throw();
 
   protected:
     SettingException(const Setting &setting);
@@ -85,7 +85,7 @@ namespace libconfig
     friend class Setting;
 
   public:
-    const char *what() const noexcept override;
+    const char *what() const throw();
 
   private:
     SettingTypeException(const Setting &setting);
@@ -99,7 +99,7 @@ namespace libconfig
     friend class Setting;
 
   public:
-    const char *what() const noexcept override;
+    const char *what() const throw();
 
   private:
     SettingNotFoundException(const Setting &setting, int idx);
@@ -113,7 +113,7 @@ namespace libconfig
     friend class Setting;
 
   public:
-    const char *what() const noexcept override;
+    const char *what() const throw();
 
   private:
     SettingNameException(const Setting &setting, const char *name);
@@ -122,7 +122,7 @@ namespace libconfig
   class LIBCONFIGXX_API FileIOException : public ConfigException
   {
   public:
-    const char *what() const noexcept override;
+    const char *what() const throw();
   };
 
   class LIBCONFIGXX_API ParseException : public ConfigException
@@ -132,24 +132,24 @@ namespace libconfig
   public:
     ParseException(const ParseException &other);
 
-    virtual ~ParseException() noexcept;
+    virtual ~ParseException() throw();
 
-    inline const char *getFile() const noexcept
+    inline const char *getFile() const throw()
     {
       return (_file);
     }
 
-    inline int getLine() const noexcept
+    inline int getLine() const throw()
     {
       return (_line);
     }
 
-    inline const char *getError() const noexcept
+    inline const char *getError() const throw()
     {
       return (_error);
     }
 
-    const char *what() const noexcept override;
+    const char *what() const throw();
 
   private:
     ParseException(const char *file, int line, const char *error);
@@ -192,187 +192,191 @@ namespace libconfig
 
     Setting(config_setting_t *setting);
 
-    void assertType(Type type) const;
+    void assertType(Type type) const
+        throw(SettingTypeException);
     static Setting &wrapSetting(config_setting_t *setting);
 
     Setting(const Setting &other);            // not supported
     Setting &operator=(const Setting &other); // not supported
 
   public:
-    virtual ~Setting() noexcept;
+    virtual ~Setting() throw();
 
-    inline Type getType() const noexcept { return (_type); }
+    inline Type getType() const throw() { return (_type); }
 
-    inline Format getFormat() const noexcept { return (_format); }
-    void setFormat(Format format) noexcept;
+    inline Format getFormat() const throw() { return (_format); }
+    void setFormat(Format format) throw();
 
-    operator bool() const;
-    operator int() const;
-    operator unsigned int() const;
-    operator long() const;
-    operator unsigned long() const;
-    operator long long() const;
-    operator unsigned long long() const;
-    operator double() const;
-    operator float() const;
-    operator const char *() const;
-    operator std::string() const;
+    operator bool() const throw(SettingTypeException);
+    operator int() const throw(SettingTypeException);
+    operator unsigned int() const throw(SettingTypeException);
+    operator long() const throw(SettingTypeException);
+    operator unsigned long() const throw(SettingTypeException);
+    operator long long() const throw(SettingTypeException);
+    operator unsigned long long() const throw(SettingTypeException);
+    operator double() const throw(SettingTypeException);
+    operator float() const throw(SettingTypeException);
+    operator const char *() const throw(SettingTypeException);
+    operator std::string() const throw(SettingTypeException);
 
-    inline const char *c_str() const
+    inline const char *c_str() const throw(SettingTypeException)
     {
       return operator const char *();
     }
 
-    Setting &operator=(bool value);
-    Setting &operator=(int value);
-    Setting &operator=(long value);
-    Setting &operator=(const long long &value);
-    Setting &operator=(const double &value);
-    Setting &operator=(float value);
-    Setting &operator=(const char *value);
-    Setting &operator=(const std::string &value);
+    Setting &operator=(bool value) throw(SettingTypeException);
+    Setting &operator=(int value) throw(SettingTypeException);
+    Setting &operator=(long value) throw(SettingTypeException);
+    Setting &operator=(const long long &value) throw(SettingTypeException);
+    Setting &operator=(const double &value) throw(SettingTypeException);
+    Setting &operator=(float value) throw(SettingTypeException);
+    Setting &operator=(const char *value) throw(SettingTypeException);
+    Setting &operator=(const std::string &value) throw(SettingTypeException);
 
-    Setting &operator[](const char *key) const;
+    Setting &operator[](const char *key) const
+        throw(SettingTypeException, SettingNotFoundException);
 
     inline Setting &operator[](const std::string &key) const
+        throw(SettingTypeException, SettingNotFoundException)
     {
       return (operator[](key.c_str()));
     }
 
-    Setting &operator[](int index) const;
+    Setting &operator[](int index) const
+        throw(SettingTypeException, SettingNotFoundException);
 
-    bool lookupValue(const char *name, bool &value) const noexcept;
-    bool lookupValue(const char *name, int &value) const noexcept;
-    bool lookupValue(const char *name, unsigned int &value) const noexcept;
-    bool lookupValue(const char *name, long long &value) const noexcept;
+    bool lookupValue(const char *name, bool &value) const throw();
+    bool lookupValue(const char *name, int &value) const throw();
+    bool lookupValue(const char *name, unsigned int &value) const throw();
+    bool lookupValue(const char *name, long long &value) const throw();
     bool lookupValue(const char *name, unsigned long long &value)
-        const noexcept;
-    bool lookupValue(const char *name, double &value) const noexcept;
-    bool lookupValue(const char *name, float &value) const noexcept;
-    bool lookupValue(const char *name, const char *&value) const noexcept;
-    bool lookupValue(const char *name, std::string &value) const noexcept;
+        const throw();
+    bool lookupValue(const char *name, double &value) const throw();
+    bool lookupValue(const char *name, float &value) const throw();
+    bool lookupValue(const char *name, const char *&value) const throw();
+    bool lookupValue(const char *name, std::string &value) const throw();
 
     inline bool lookupValue(const std::string &name, bool &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, int &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, unsigned int &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, long long &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name,
-                            unsigned long long &value) const noexcept
+                            unsigned long long &value) const throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, double &value) const
-        noexcept
+        throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, float &value) const
-        noexcept
+        throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, const char *&value) const
-        noexcept
+        throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &name, std::string &value) const
-        noexcept
+        throw()
     {
       return (lookupValue(name.c_str(), value));
     }
 
-    void remove(const char *name);
+    void remove(const char *name) throw(SettingTypeException, SettingNotFoundException);
 
-    inline void remove(const std::string &name)
+    inline void remove(const std::string &name) throw(SettingTypeException, SettingNotFoundException)
     {
       remove(name.c_str());
     }
 
-    void remove(unsigned int idx);
+    void remove(unsigned int idx) throw(SettingTypeException, SettingNotFoundException);
 
-    inline Setting &add(const std::string &name, Type type)
+    inline Setting &add(const std::string &name, Type type) throw(SettingNameException, SettingTypeException)
     {
       return (add(name.c_str(), type));
     }
 
-    Setting &add(const char *name, Type type);
+    Setting &add(const char *name, Type type) throw(SettingNameException, SettingTypeException);
 
-    Setting &add(Type type);
+    Setting &add(Type type) throw(SettingTypeException);
 
-    inline bool exists(const std::string &name) const noexcept
+    inline bool exists(const std::string &name) const throw()
     {
       return (exists(name.c_str()));
     }
 
-    bool exists(const char *name) const noexcept;
+    bool exists(const char *name) const throw();
 
-    int getLength() const noexcept;
-    const char *getName() const noexcept;
+    int getLength() const throw();
+    const char *getName() const throw();
     std::string getPath() const;
-    int getIndex() const noexcept;
+    int getIndex() const throw();
 
-    const Setting &getParent() const;
-    Setting &getParent();
+    const Setting &getParent() const throw(SettingNotFoundException);
+    Setting &getParent() throw(SettingNotFoundException);
 
-    bool isRoot() const noexcept;
+    bool isRoot() const throw();
 
-    inline bool isGroup() const noexcept
+    inline bool isGroup() const throw()
     {
       return (_type == TypeGroup);
     }
 
-    inline bool isArray() const noexcept
+    inline bool isArray() const throw()
     {
       return (_type == TypeArray);
     }
 
-    inline bool isList() const noexcept
+    inline bool isList() const throw()
     {
       return (_type == TypeList);
     }
 
-    inline bool isAggregate() const noexcept
+    inline bool isAggregate() const throw()
     {
       return (_type >= TypeGroup);
     }
 
-    inline bool isScalar() const noexcept
+    inline bool isScalar() const throw()
     {
       return ((_type > TypeNone) && (_type < TypeGroup));
     }
 
-    inline bool isNumber() const noexcept
+    inline bool isNumber() const throw()
     {
       return ((_type == TypeInt) || (_type == TypeInt64) || (_type == TypeFloat));
     }
 
-    unsigned int getSourceLine() const noexcept;
-    const char *getSourceFile() const noexcept;
+    unsigned int getSourceLine() const throw();
+    const char *getSourceFile() const throw();
   };
 
   class LIBCONFIGXX_API Config
@@ -397,98 +401,98 @@ namespace libconfig
       return (_defaultFormat);
     }
 
-    void setTabWidth(unsigned short width) noexcept;
-    unsigned short getTabWidth() const noexcept;
+    void setTabWidth(unsigned short width) throw();
+    unsigned short getTabWidth() const throw();
 
-    void setIncludeDir(const char *includeDir) noexcept;
-    const char *getIncludeDir() const noexcept;
+    void setIncludeDir(const char *includeDir) throw();
+    const char *getIncludeDir() const throw();
 
-    void read(FILE *stream);
+    void read(FILE *stream) throw(ParseException);
     void write(FILE *stream) const;
 
-    void readString(const char *str);
-    inline void readString(const std::string &str)
+    void readString(const char *str) throw(ParseException);
+    inline void readString(const std::string &str) throw(ParseException)
     {
       return (readString(str.c_str()));
     }
 
-    void readFile(const char *filename);
-    void writeFile(const char *filename);
+    void readFile(const char *filename) throw(FileIOException, ParseException);
+    void writeFile(const char *filename) throw(FileIOException);
 
     inline Setting &lookup(const std::string &path) const
-       
+        throw(SettingNotFoundException)
     {
       return (lookup(path.c_str()));
     }
 
-    Setting &lookup(const char *path) const;
+    Setting &lookup(const char *path) const throw(SettingNotFoundException);
 
-    inline bool exists(const std::string &path) const noexcept
+    inline bool exists(const std::string &path) const throw()
     {
       return (exists(path.c_str()));
     }
 
-    bool exists(const char *path) const noexcept;
+    bool exists(const char *path) const throw();
 
-    bool lookupValue(const char *path, bool &value) const noexcept;
-    bool lookupValue(const char *path, int &value) const noexcept;
-    bool lookupValue(const char *path, unsigned int &value) const noexcept;
-    bool lookupValue(const char *path, long long &value) const noexcept;
+    bool lookupValue(const char *path, bool &value) const throw();
+    bool lookupValue(const char *path, int &value) const throw();
+    bool lookupValue(const char *path, unsigned int &value) const throw();
+    bool lookupValue(const char *path, long long &value) const throw();
     bool lookupValue(const char *path, unsigned long long &value)
-        const noexcept;
-    bool lookupValue(const char *path, double &value) const noexcept;
-    bool lookupValue(const char *path, float &value) const noexcept;
-    bool lookupValue(const char *path, const char *&value) const noexcept;
-    bool lookupValue(const char *path, std::string &value) const noexcept;
+        const throw();
+    bool lookupValue(const char *path, double &value) const throw();
+    bool lookupValue(const char *path, float &value) const throw();
+    bool lookupValue(const char *path, const char *&value) const throw();
+    bool lookupValue(const char *path, std::string &value) const throw();
 
-    inline bool lookupValue(const std::string &path, bool &value) const noexcept
+    inline bool lookupValue(const std::string &path, bool &value) const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
-    inline bool lookupValue(const std::string &path, int &value) const noexcept
+    inline bool lookupValue(const std::string &path, int &value) const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path, unsigned int &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path, long long &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path,
-                            unsigned long long &value) const noexcept
+                            unsigned long long &value) const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path, double &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path, float &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path, const char *&value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(path.c_str(), value));
     }
 
     inline bool lookupValue(const std::string &path, std::string &value)
-        const noexcept
+        const throw()
     {
       return (lookupValue(path.c_str(), value));
     }

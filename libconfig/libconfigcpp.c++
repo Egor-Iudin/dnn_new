@@ -54,14 +54,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  ParseException::~ParseException() noexcept
+  ParseException::~ParseException() throw()
   {
     ::free((void *)_file);
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *ParseException::what() const noexcept
+  const char *ParseException::what() const throw()
   {
     return ("ParseException");
   }
@@ -199,14 +199,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingException::what() const noexcept
+  const char *SettingException::what() const throw()
   {
     return ("SettingException");
   }
 
   // ---------------------------------------------------------------------------
 
-  SettingException::~SettingException() noexcept
+  SettingException::~SettingException() throw()
   {
     ::free(_path);
   }
@@ -235,7 +235,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingTypeException::what() const noexcept
+  const char *SettingTypeException::what() const throw()
   {
     return ("SettingTypeException");
   }
@@ -265,7 +265,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingNotFoundException::what() const noexcept
+  const char *SettingNotFoundException::what() const throw()
   {
     return ("SettingNotFoundException");
   }
@@ -280,14 +280,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const char *SettingNameException::what() const noexcept
+  const char *SettingNameException::what() const throw()
   {
     return ("SettingNameException");
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *FileIOException::what() const noexcept
+  const char *FileIOException::what() const throw()
   {
     return ("FileIOException");
   }
@@ -345,28 +345,28 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::setTabWidth(unsigned short width) noexcept
+  void Config::setTabWidth(unsigned short width) throw()
   {
     config_set_tab_width(_config, width);
   }
 
   // ---------------------------------------------------------------------------
 
-  unsigned short Config::getTabWidth() const noexcept
+  unsigned short Config::getTabWidth() const throw()
   {
     return (config_get_tab_width(_config));
   }
 
   // ---------------------------------------------------------------------------
 
-  void Config::setIncludeDir(const char *includeDir) noexcept
+  void Config::setIncludeDir(const char *includeDir) throw()
   {
     config_set_include_dir(_config, includeDir);
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *Config::getIncludeDir() const noexcept
+  const char *Config::getIncludeDir() const throw()
   {
     return (config_get_include_dir(_config));
   }
@@ -394,7 +394,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::read(FILE *stream)
+  void Config::read(FILE *stream) throw(ParseException)
   {
     if (!config_read(_config, stream))
       handleError();
@@ -402,7 +402,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::readString(const char *str)
+  void Config::readString(const char *str) throw(ParseException)
   {
     if (!config_read_string(_config, str))
       handleError();
@@ -417,7 +417,8 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::readFile(const char *filename)
+  void Config::readFile(const char *filename) throw(FileIOException,
+                                                    ParseException)
   {
     if (!config_read_file(_config, filename))
       handleError();
@@ -425,7 +426,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Config::writeFile(const char *filename)
+  void Config::writeFile(const char *filename) throw(FileIOException)
   {
     if (!config_write_file(_config, filename))
       handleError();
@@ -434,6 +435,7 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   Setting &Config::lookup(const char *path) const
+      throw(SettingNotFoundException)
   {
     config_setting_t *s = config_lookup(_config, path);
     if (!s)
@@ -444,7 +446,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  bool Config::exists(const char *path) const noexcept
+  bool Config::exists(const char *path) const throw()
   {
     config_setting_t *s = config_lookup(_config, path);
 
@@ -467,28 +469,28 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, bool &value) const noexcept
+  bool Config::lookupValue(const char *path, bool &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, bool, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, int &value) const noexcept
+  bool Config::lookupValue(const char *path, int &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, int, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, unsigned int &value) const noexcept
+  bool Config::lookupValue(const char *path, unsigned int &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, unsigned int, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, long long &value) const noexcept
+  bool Config::lookupValue(const char *path, long long &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, long long, value);
   }
@@ -496,35 +498,35 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   bool Config::lookupValue(const char *path, unsigned long long &value)
-      const noexcept
+      const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, unsigned long long, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, double &value) const noexcept
+  bool Config::lookupValue(const char *path, double &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, double, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, float &value) const noexcept
+  bool Config::lookupValue(const char *path, float &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, float, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, const char *&value) const noexcept
+  bool Config::lookupValue(const char *path, const char *&value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, const char *, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Config::lookupValue(const char *path, std::string &value) const noexcept
+  bool Config::lookupValue(const char *path, std::string &value) const throw()
   {
     CONFIG_LOOKUP_NO_EXCEPTIONS(path, const char *, value);
   }
@@ -596,14 +598,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::~Setting() noexcept
+  Setting::~Setting() throw()
   {
     _setting = NULL;
   }
 
   // ---------------------------------------------------------------------------
 
-  void Setting::setFormat(Format format) noexcept
+  void Setting::setFormat(Format format) throw()
   {
     if ((_type == TypeInt) || (_type == TypeInt64))
     {
@@ -620,7 +622,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator bool() const
+  Setting::operator bool() const throw(SettingTypeException)
   {
     assertType(TypeBoolean);
 
@@ -629,7 +631,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator int() const
+  Setting::operator int() const throw(SettingTypeException)
   {
     assertType(TypeInt);
 
@@ -638,7 +640,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator unsigned int() const
+  Setting::operator unsigned int() const throw(SettingTypeException)
   {
     assertType(TypeInt);
 
@@ -652,7 +654,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator long() const
+  Setting::operator long() const throw(SettingTypeException)
   {
     if (sizeof(long) == sizeof(long long))
       return operator long long();
@@ -662,7 +664,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator unsigned long() const
+  Setting::operator unsigned long() const throw(SettingTypeException)
   {
     if (sizeof(long) == sizeof(long long))
       return operator unsigned long long();
@@ -672,7 +674,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator long long() const
+  Setting::operator long long() const throw(SettingTypeException)
   {
     assertType(TypeInt64);
 
@@ -681,7 +683,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator unsigned long long() const
+  Setting::operator unsigned long long() const throw(SettingTypeException)
   {
     assertType(TypeInt64);
 
@@ -695,7 +697,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator double() const
+  Setting::operator double() const throw(SettingTypeException)
   {
     assertType(TypeFloat);
 
@@ -704,7 +706,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator float() const
+  Setting::operator float() const throw(SettingTypeException)
   {
     assertType(TypeFloat);
 
@@ -714,7 +716,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator const char *() const
+  Setting::operator const char *() const throw(SettingTypeException)
   {
     assertType(TypeString);
 
@@ -723,7 +725,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting::operator std::string() const
+  Setting::operator std::string() const throw(SettingTypeException)
   {
     assertType(TypeString);
 
@@ -738,7 +740,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(bool value)
+  Setting &Setting::operator=(bool value) throw(SettingTypeException)
   {
     assertType(TypeBoolean);
 
@@ -749,7 +751,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(int value)
+  Setting &Setting::operator=(int value) throw(SettingTypeException)
   {
     assertType(TypeInt);
 
@@ -760,7 +762,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(long value)
+  Setting &Setting::operator=(long value) throw(SettingTypeException)
   {
     if (sizeof(long) == sizeof(long long))
       return (operator=(static_cast<long long>(value)));
@@ -770,7 +772,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const long long &value)
+  Setting &Setting::operator=(const long long &value) throw(SettingTypeException)
   {
     assertType(TypeInt64);
 
@@ -781,7 +783,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const double &value)
+  Setting &Setting::operator=(const double &value) throw(SettingTypeException)
   {
     assertType(TypeFloat);
 
@@ -792,7 +794,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(float value)
+  Setting &Setting::operator=(float value) throw(SettingTypeException)
   {
     assertType(TypeFloat);
 
@@ -805,7 +807,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const char *value)
+  Setting &Setting::operator=(const char *value) throw(SettingTypeException)
   {
     assertType(TypeString);
 
@@ -816,7 +818,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::operator=(const std::string &value)
+  Setting &Setting::operator=(const std::string &value) throw(SettingTypeException)
   {
     assertType(TypeString);
 
@@ -828,6 +830,7 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   Setting &Setting::operator[](int i) const
+      throw(SettingTypeException, SettingNotFoundException)
   {
     if ((_type != TypeArray) && (_type != TypeGroup) && (_type != TypeList))
       throw SettingTypeException(*this, i);
@@ -843,6 +846,7 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   Setting &Setting::operator[](const char *key) const
+      throw(SettingTypeException, SettingNotFoundException)
   {
     assertType(TypeGroup);
 
@@ -870,14 +874,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, bool &value) const noexcept
+  bool Setting::lookupValue(const char *name, bool &value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, bool, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, int &value) const noexcept
+  bool Setting::lookupValue(const char *name, int &value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, int, value);
   }
@@ -885,14 +889,14 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   bool Setting::lookupValue(const char *name, unsigned int &value)
-      const noexcept
+      const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, unsigned int, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, long long &value) const noexcept
+  bool Setting::lookupValue(const char *name, long long &value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, long long, value);
   }
@@ -900,42 +904,42 @@ namespace libconfig
   // ---------------------------------------------------------------------------
 
   bool Setting::lookupValue(const char *name, unsigned long long &value)
-      const noexcept
+      const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, unsigned long long, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, double &value) const noexcept
+  bool Setting::lookupValue(const char *name, double &value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, double, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, float &value) const noexcept
+  bool Setting::lookupValue(const char *name, float &value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, float, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, const char *&value) const noexcept
+  bool Setting::lookupValue(const char *name, const char *&value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, const char *, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::lookupValue(const char *name, std::string &value) const noexcept
+  bool Setting::lookupValue(const char *name, std::string &value) const throw()
   {
     SETTING_LOOKUP_NO_EXCEPTIONS(name, const char *, value);
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::exists(const char *name) const noexcept
+  bool Setting::exists(const char *name) const throw()
   {
     if (_type != TypeGroup)
       return (false);
@@ -947,14 +951,14 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  int Setting::getLength() const noexcept
+  int Setting::getLength() const throw()
   {
     return (config_setting_length(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *Setting::getName() const noexcept
+  const char *Setting::getName() const throw()
   {
     return (config_setting_name(_setting));
   }
@@ -972,7 +976,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  const Setting &Setting::getParent() const
+  const Setting &Setting::getParent() const throw(SettingNotFoundException)
   {
     config_setting_t *setting = config_setting_parent(_setting);
 
@@ -984,7 +988,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::getParent()
+  Setting &Setting::getParent() throw(SettingNotFoundException)
   {
     config_setting_t *setting = config_setting_parent(_setting);
 
@@ -996,35 +1000,35 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  unsigned int Setting::getSourceLine() const noexcept
+  unsigned int Setting::getSourceLine() const throw()
   {
     return (config_setting_source_line(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  const char *Setting::getSourceFile() const noexcept
+  const char *Setting::getSourceFile() const throw()
   {
     return (config_setting_source_file(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  bool Setting::isRoot() const noexcept
+  bool Setting::isRoot() const throw()
   {
     return (config_setting_is_root(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  int Setting::getIndex() const noexcept
+  int Setting::getIndex() const throw()
   {
     return (config_setting_index(_setting));
   }
 
   // ---------------------------------------------------------------------------
 
-  void Setting::remove(const char *name)
+  void Setting::remove(const char *name) throw(SettingTypeException, SettingNotFoundException)
   {
     assertType(TypeGroup);
 
@@ -1034,7 +1038,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Setting::remove(unsigned int idx)
+  void Setting::remove(unsigned int idx) throw(SettingTypeException, SettingNotFoundException)
   {
     if ((_type != TypeArray) && (_type != TypeGroup) && (_type != TypeList))
       throw SettingTypeException(*this, idx);
@@ -1045,7 +1049,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::add(const char *name, Setting::Type type)
+  Setting &Setting::add(const char *name, Setting::Type type) throw(SettingNameException, SettingTypeException)
   {
     assertType(TypeGroup);
 
@@ -1064,7 +1068,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  Setting &Setting::add(Setting::Type type)
+  Setting &Setting::add(Setting::Type type) throw(SettingTypeException)
   {
     if ((_type != TypeArray) && (_type != TypeList))
       throw SettingTypeException(*this);
@@ -1123,7 +1127,7 @@ namespace libconfig
 
   // ---------------------------------------------------------------------------
 
-  void Setting::assertType(Setting::Type type) const
+  void Setting::assertType(Setting::Type type) const throw(SettingTypeException)
   {
     if (type != _type)
     {
