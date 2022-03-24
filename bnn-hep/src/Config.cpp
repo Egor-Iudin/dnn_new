@@ -225,12 +225,12 @@ Config::Config(string const &fileName, Logger &log_) : log(log_)
     log << info(2) << "The configuration file is parsed and checked." << eom;
 }
 
-Setting const &Config::LookupSetting(string const &path)
+Setting const &Config::LookupSetting(string const &path) throw(SettingNotFoundException)
 {
     return ExpandSetting(cfg.lookup(path));
 }
 
-Setting const &Config::LookupMandatorySetting(string const &path) noexcept
+Setting const &Config::LookupMandatorySetting(string const &path) throw()
 {
     try
     {
@@ -244,7 +244,7 @@ Setting const &Config::LookupMandatorySetting(string const &path) noexcept
     }
 }
 
-Setting const &Config::ExpandSetting(Setting const &setting)
+Setting const &Config::ExpandSetting(Setting const &setting) throw(SettingNotFoundException)
 {
     if (setting.getType() == Setting::Type::TypeString)
     {
